@@ -31,5 +31,8 @@
     "gulp-size": "^2.1.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.3"
+  },
+  "dependencies": {
+    "chalk": "^1.1.3"
   }
 }

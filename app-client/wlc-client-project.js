@@ -19,7 +19,7 @@
 
 
 module.exports = {
-	name: '泰金所 2016-11',
+	name: '泰金所\'16-11',
 	appFolderStructure: 'tranditional',
 	folderOf: {
 		srcRoot:                  'source',
@@ -36,10 +36,27 @@ module.exports = {
 	},
 
 	globs: {
-		all: [
-			'/assets/base-_framework/iconfonts/**/*',
-			'!/assets/base-_framework/iconfonts/**/*.css',
-		]
+		allOtherAssets: [
+			'/assets/base-of-this-project/iconfonts/**/*',
+			'!/assets/base-of-this-project/iconfonts/**/*.css',
+		],
+
+		filesViaConcatenation: {
+			CSS: {
+				base: [
+					// 下面壹壹列出各个glob，目的是保证这些css文件合并的顺序。
+					// 我们知道，错误的CSS顺序可能导致错误的结果。
+					'base-_framework/_reset*.css',
+					'base-of-this-project/iconfonts/*.css',
+					'base-_framework/base.css',
+					// 'base-_framework/base-ie8.css',
+					'base-of-this-project/_fonts*.css',
+					'base-of-this-project/layout.css',
+					'base-of-this-project/theme-_default.css',
+					// 'base-of-this-project/theme-_default-ie8.css'
+				]
+			}
+		},
 	},
 
 	buildFor: {
@@ -47,7 +64,7 @@ module.exports = {
 			shouldMinifyHTML: false,
 			shouldMinifyCSS: false,
 			shouldMinifyJS: false,
-			shouldGenerateSoureMaps: true
+			shouldGenerateSoureMaps: false
 		},
 		release: {
 			shouldMinifyHTML: true,
@@ -57,22 +74,6 @@ module.exports = {
 		}
 	},
 
-	filesViaConcatenation: {
-		CSS: {
-			base: [
-				// 下面壹壹列出各个glob，目的是保证这些css文件合并的顺序。
-				// 我们知道，错误的CSS顺序可能导致错误的结果。
-				'base-_framework/_reset*.css',
-				'base-of-this-project/iconfonts/*.css',
-				'base-_framework/base.css',
-				// 'base-_framework/base-ie8.css',
-				'base-of-this-project/_fonts*.css',
-				'base-of-this-project/layout.css',
-				'base-of-this-project/theme-_default.css',
-				// 'base-of-this-project/theme-_default-ie8.css'
-			]
-		}
-	},
 
 	injections: [
 		{
