@@ -189,8 +189,8 @@ gulp.task('before-everything', () => {
 
 	gulp.task('styles-base-rest-files', ['before-everything'], () => {
 		let globsForRestOfBaseCSS = [
-			pathSrcRoot+'/'+folderNameAssets+'/base-_framework/**/*.css',
-			pathSrcRoot+'/'+folderNameAssets+'/base-of-this-project/**/*.css'
+			pathSrcRoot+'/'+folderNameCSS+'/base-_framework/**/*.css',
+			pathSrcRoot+'/'+folderNameCSS+'/base-of-this-project/**/*.css'
 		];
 
 		globsForBaseCSS.forEach((glob) => {
@@ -217,7 +217,7 @@ gulp.task('before-everything', () => {
 	gulp.task('styles-iconfonts', ['before-everything'], () => {
 		return gulp.src([
 			pathSrcRoot+'/assets/styles/base-of-this-project/iconfonts/*',
-			'!'+pathSrcRoot+'/assets/styles/base-of-this-project/iconfonts/*.css', //前面加一个惊叹号，代表忽略这个glob。
+			'!'+pathSrcRoot+'/assets/styles/base-of-this-project/iconfonts/*.css' //前面加一个惊叹号，代表忽略这个glob。
 		])
 			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/assets/styles/base/')) // 将文件写入指定文件夹
 		;
@@ -225,9 +225,9 @@ gulp.task('before-everything', () => {
 
 
 	gulp.task('styles-specific', ['before-everything'], () => {
-		const pathCSSTargetFolder = pathNewDevBuildCacheRoot+'/assets/styles/pages';
+		const pathCSSTargetFolder = pathNewDevBuildCacheRoot+'/'+folderNameCSS+'/pages';
 		let globsForCSSForSpecificPages = [
-			pathSrcRoot+'/'+folderNameAssets+'/pages/**/*.css'
+			pathSrcRoot+'/'+folderNameCSS+'/pages/**/*.css'
 		];
 
 
