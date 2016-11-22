@@ -1,3 +1,6 @@
+#app-header {
+    height: 2rem;
+}
 #app-header-info-and-links {
     font-size: 12px;
     border-bottom: 1px solid;
@@ -103,3 +106,36 @@
         #app-header-user-account-commands.user-has-logged-in .user-known {
             display: inline-block;
         }
+
+
+
+
+#app-header-chief-bar {
+    border-bottom: 1px solid;
+    }
+
+    #app-header-chief-bar > .width-wrap {
+        height: 72px;
+    }
+
+    #taijs-logo {
+        display: inline-block;
+        vertical-align: top;
+        padding: 11px;
+        margin: 0 11px 0 -11px;
+    }
+
+    #app-header-chief-bar > .width-wrap > .docking {
+        height: 100%;
+        padding: 0 10px;
+        margin-right: -10px;
+        z-index: 5;
+    }
+
+    #search-box, #my-assets {
+        text-align: left;
+    }
+
+    #search-box {
+        width: 140px;
+    }
