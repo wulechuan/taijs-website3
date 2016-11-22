@@ -1,0 +1,89 @@
+#app-header {
+	background-color: #333;
+	}
+
+	#app-header-info-and-links {
+		border-bottom-color: #eee;
+		}
+
+		#app-header-user-account-commands .menu.level-1 > .menu-item > a > .label,
+		#app-header-user-account-commands .menu.level-1 > .menu-item > .label,
+		#app-header-info-and-links {
+			color: #666;
+		}
+
+		#app-header-info-and-links a:hover,
+		#app-header-info-and-links .floating-layer-set:hover button.simple-look,
+		#app-header-info-and-links button.simple-look:hover {
+			background-color: #f3f3f3;
+		}
+
+		#app-header-info-and-links a,
+		#app-header-info-and-links a:link,
+		#app-header-info-and-links a:visited {
+			color: #666;
+		}
+
+		#app-header-info-and-links .iconfont {
+			color: #999;
+		}
+
+		#app-header-contacts .tel em {
+			color: #666;
+		}
+
+	#app-header-chief-bar {
+		border-bottom-color: #eee;
+		}
+
+		#app-header-chief-bar > .width-wrap > .docking {
+			background-color: white;
+		}
+
+
+#app-footer {
+	border-color: #ddd;
+	background-color: white;
+	}
+
+	#app-footer a,
+	#app-footer a:hover,
+	#app-footer a:visited {
+		color: #666;
+	}
+
+	#app-footer a:hover {
+		background-color: #f3f3f3;
+	}
+
+	#app-footer-nav h2 {
+		color: #333;
+	}
+
+	#app-footer-services-info em {
+		color: #333;
+	}
+
+
+#app-chief-nav {
+	}
+
+	#app-chief-nav .menu,
+	#app-chief-nav .menu .deco {
+		border-color: #e1e1e1;
+		background-color: white;
+	}
+
+	#app-chief-nav .menu.level-2 > .menu-item > a > .label,
+	#app-chief-nav .menu.level-2 > .menu-item > .label {
+		color: #666;
+	}
+
+	#app-chief-nav .menu.level-2 > .menu-item.current-cate > a > .label,
+	#app-chief-nav .menu.level-2 > .menu-item.current-cate > .label,
+	#app-chief-nav .menu.level-2 > .menu-item.sub-menu-shown > a > .label,
+	#app-chief-nav .menu.level-2 > .menu-item.sub-menu-shown > .label,
+	#app-chief-nav .menu.level-2 > .menu-item:hover > a > .label,
+	#app-chief-nav .menu.level-2 > .menu-item:hover > .label {
+		color: white;
+	}

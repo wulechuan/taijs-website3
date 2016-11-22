@@ -3,10 +3,11 @@
 // {project-root}
 //   └─ app-client
 const pathClientAppRoot = './app-client/';
+const fileNameWlcClientProjectJS = 'wlc-client-project.js';
 
 
 
-const pathWLCConfigurationFile = pathClientAppRoot+'wlc-client-project.js';
+const pathWLCConfigurationFile = pathClientAppRoot+fileNameWlcClientProjectJS;
 const WLCClientProjectSettings = require(pathWLCConfigurationFile);
 const projectCaption = WLCClientProjectSettings.name || 'untitled';
 
@@ -177,8 +178,8 @@ gulp.task('before-everything', () => {
 			globs[i] = pathSrcRoot+'/'+folderNameCSS+'/'+glob;
 		});
 
-	let globsForBaseThemeCSS = WLCClientProjectSettings.globs.filesViaConcatenation.CSS.theme; 
-		globsForBaseThemeCSS.forEach((glob, i, globs) => {
+	let globsForThemeDefaultCSS = WLCClientProjectSettings.globs.filesViaConcatenation.CSS['theme-_default']; 
+		globsForThemeDefaultCSS.forEach((glob, i, globs) => {
 			globs[i] = pathSrcRoot+'/'+folderNameCSS+'/'+glob;
 		});
 
@@ -187,7 +188,7 @@ gulp.task('before-everything', () => {
 	const cssminOptions = genOptionsForCSSMin();
 
 
-	gulp.task('styles-base', ['before-everything'], () => {
+	gulp.task('CSS-基本定义', ['before-everything'], () => {
 		const baseCSSFileName = 'base.min.css';
 		if (cssBuildingOptions.shouldGenerateSoureMaps) {
 			return gulp.src(globsForBaseCSS)
@@ -207,10 +208,10 @@ gulp.task('before-everything', () => {
 	});
 
 
-	gulp.task('styles-base-theme', ['before-everything'], () => {
+	gulp.task('CSS-色彩主题-默认主题', ['before-everything'], () => {
 		const baseThemeCSSFileName = 'theme-_default.min.css';
 		if (cssBuildingOptions.shouldGenerateSoureMaps) {
-			return gulp.src(globsForBaseThemeCSS)
+			return gulp.src(globsForThemeDefaultCSS)
 				.pipe(sourcemaps.init())
 					.pipe(concatInto(baseThemeCSSFileName))
 					// .pipe(minifyCSS(cssminOptions))
@@ -218,7 +219,7 @@ gulp.task('before-everything', () => {
 				.pipe(gulp.dest(pathForSavingBaseCSS))
 			;
 		} else {
-			return gulp.src(globsForBaseThemeCSS)
+			return gulp.src(globsForThemeDefaultCSS)
 				.pipe(concatInto(baseThemeCSSFileName))
 				// .pipe(minifyCSS(cssminOptions))
 				.pipe(gulp.dest(pathForSavingBaseCSS))
@@ -270,8 +271,8 @@ gulp.task('before-everything', () => {
 
 
 	gulp.task('styles', [
-		'styles-base',
-		'styles-base-theme',
+		'CSS-基本定义',
+		'CSS-色彩主题-默认主题',
 		'styles-iconfonts',
 		'styles-specific'
 	]);
@@ -309,13 +310,13 @@ gulp.task('before-everything', () => {
 
 
 (function devAllHTMLTasks() {
-	gulp.task('copy-html-snippets-files-to-temp-folder',  ['before-everything'], () => {
+	gulp.task('将所有HTML片断文件复制到缓存文件夹',  ['before-everything'], () => {
 		return gulp.src([pathSrcRoot+'/'+folderNameHTMLSnippets+'/**/*'])
 			.pipe(gulp.dest(pathNewBuildTempRoot+'/'+folderNameHTMLSnippets))
 		;
 	});
 
-	gulp.task('pre-process-html-snippets',  ['copy-html-snippets-files-to-temp-folder'], () => {
+	gulp.task('预处理缓存文件夹中的HTML片断',  ['将所有HTML片断文件复制到缓存文件夹'], () => {
 		return gulp.src([
 			pathNewBuildTempRoot+'/'+folderNameHTMLSnippets+'/module-app-footer.html'
 		])
@@ -329,7 +330,7 @@ gulp.task('before-everything', () => {
 		;
 	});
 
-	gulp.task('html-inject-snippets', ['pre-process-html-snippets'], () => {
+	gulp.task('将HTML片断按需注入各个HTML页面中', ['预处理缓存文件夹中的HTML片断'], () => {
 		const globsSourceHTMLSnippets = pathSrcRoot+'/'+folderNameHTMLSnippets;
 		const globsAllSourceHTMLFilesInAllFolders = pathSrcRoot+'/**/*.html'; // 其中包含了index.html
 
@@ -389,11 +390,11 @@ gulp.task('before-everything', () => {
 				}
 	});
 
-	gulp.task('remove-html-snippets-in-dev-cache',  ['html-inject-snippets'], () => {
+	gulp.task('删除缓存文件夹种的HTML片断文件',  ['将HTML片断按需注入各个HTML页面中'], () => {
 		return del([pathNewDevBuildCacheRoot+'/'+folderNameHTMLSnippets]);
 	});
 
-	gulp.task('html', ['remove-html-snippets-in-dev-cache'], () => {
+	gulp.task('html', ['删除缓存文件夹种的HTML片断文件'], () => {
 		let htmlminOptions = genOptionsForHTMLMin(runtime.buildingOptions.forCurrentMode.shouldMinifyHTML);
 		return gulp.src([pathNewDevBuildCacheRoot+'/**/*.html'])
 			.pipe(minifyHTML(htmlminOptions))
@@ -405,7 +406,7 @@ gulp.task('before-everything', () => {
 
 
 (function devAllAssetsTasks() {
-	gulp.task('assets-vendors', ['before-everything'], () => {
+	gulp.task('处理所有来自第三方厂商的文件', ['before-everything'], () => {
 		return gulp.src(pathSrcRoot+'/assets-vendors/**/*')
 			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/assets-vendors/'))
 		;
@@ -445,7 +446,7 @@ gulp.task('before-everything', () => {
 
 
 gulp.task('prepare-all-new-files-in-cache', [
-	'assets-vendors',
+	'处理所有来自第三方厂商的文件',
 	'assets',
 	'html'
 ]);
@@ -476,7 +477,10 @@ gulp.task('build-entire-app', ['删除临时文件夹和临时文件']);
 
 gulp.task('监视【开发源码】文件夹', ['删除临时文件夹和临时文件'], () => {
 	return gulp.watch(
-		[pathSrcRoot+'/**/*'], // 监视这个文件夹
+		[ // 监视这个文件夹
+			pathWLCConfigurationFile,
+			pathSrcRoot+'/**/*'
+		],
 	 	['build-entire-app']   // 一旦有文件改动，执行这个任务
 	)
 		.on('change', (/*event, done*/) => {

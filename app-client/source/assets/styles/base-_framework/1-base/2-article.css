@@ -17,8 +17,8 @@ article {
 		font-size: 1.5rem;
 		font-weight: 400;
 	}
-	article .ofb, /* opportunity for breaking line */
-	.ofb {
+	article .ofbl, /* opportunity for breaking line */
+	.ofbl {
 		display: inline-block;
 	}
 

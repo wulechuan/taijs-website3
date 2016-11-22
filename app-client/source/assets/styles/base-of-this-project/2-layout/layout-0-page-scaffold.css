@@ -1,11 +1,11 @@
 .row {
-	padding-left: 20px;
-	padding-right: 20px;
+	padding-left: 24px;
+	padding-right: 24px;
 }
 
 .width-wrap {
-	max-width: 1200px;
-	min-width: 1200px;
+	max-width: 1232px;
+	min-width: 1232px;
 }
 
 
@@ -32,5 +32,3 @@
 	0%   { transform: translate(0, -16px) scaleY(0.64); }
 	100% { transform: translate(0, 0) scaleY(1); }
 }
-
-

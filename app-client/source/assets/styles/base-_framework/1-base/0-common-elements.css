@@ -217,3 +217,7 @@ dd {
 		vertical-align: middle;
 	}
 
+
+.layout-hori > li {
+	display: inline-block;
+	}
