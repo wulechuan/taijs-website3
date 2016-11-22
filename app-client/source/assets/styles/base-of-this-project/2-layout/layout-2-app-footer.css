@@ -1,0 +1,212 @@
+#app-footer {
+	display: block;
+	}
+
+	#app-footer > footer,
+	#app-footer .row,
+	#app-footer .width-wrap,
+	#app-footer .content,
+	#app-footer .col {
+		border-color: inherit;
+	}
+
+
+	#app-footer a {
+		display: inline-block;
+		padding: 6px;
+		margin: 0 -6px;
+	}
+
+	#app-footer a,
+	#app-footer a:hover,
+	#app-footer a:visited {
+		text-decoration: none;
+	}
+
+	#app-footer-chief-bar {
+		position: relative;
+		border-top: 1px solid;
+		}
+
+		#app-footer-chief-bar .content {
+			padding: 36px 0 16px 0;
+		}
+
+		#app-footer-chief-bar .content .col {
+			box-sizing: border-box;
+		}
+
+		#app-footer-chief-bar .content > .col {
+			min-height: 148px;
+			min-width: 25%;
+		}
+
+		#app-footer-chief-bar .content > .col.col-1 {
+			width: 328px;
+			margin-bottom: -10px;
+		}
+
+		#app-footer-chief-bar .content > .col.col-3 {
+			width: 328px;
+		}
+
+		#app-footer-chief-bar .content > .col.col-2 {
+			width: 544px;
+			border-width: 0 1px;
+			border-style: solid;
+		}
+
+		#app-footer-nav {
+			font-size: 12px;
+			}
+
+			#app-footer-nav h2 {
+				font-size: 16px;
+				padding: 8px;
+				margin: -8px -8px 8px -8px;
+			}
+
+			#app-footer-nav h2 a {
+				padding: 8px;
+				margin: -8px;
+			}
+
+			#app-footer-nav a {
+				margin-top: 1px;
+				margin-bottom: 1px;
+			}
+
+			#app-footer-nav .col {
+				width: 102px;
+				padding-right: 24px;
+			}
+
+		#app-footer-qrcodes {
+			text-align: center;
+			}
+
+			#app-footer-qrcodes .columns > .col {
+				width: 147px;
+				border-top: 1px solid transparent;
+				text-align: center;
+			}
+
+			#app-footer-qrcodes .qrcode > img {
+				width: 128px;
+				height: 128px;
+				margin: -3px;
+			}
+			#app-footer-qrcodes .qrcode .figcaption {
+				margin-bottom: -10px;
+			}
+
+		#app-footer-services-info {
+			font-size: 12px;
+			text-align: right;
+			}
+
+			#app-footer-services-info > ul {
+				text-align: left;
+				display: inline-block;
+				right: 0;
+			}
+
+			#app-footer-services-info > ul > li {
+				position: relative;
+				padding: 5px 5px 5px 35px;
+				line-height: 37px;
+				margin: -5px;
+			}
+
+			#app-footer-services-info .iconfont {
+				font-size: 20px;
+				position: absolute;
+				left: 5px;
+				top: 5px;
+				margin: 2px 0 0 0;
+				margin-top: -1px\0;
+			}
+
+			:root #app-footer-services-info .iconfont {
+				margin-top: 1px\0;
+			}
+
+			#app-footer-services-info em {
+				font-size: 18px;
+			}
+
+			#app-footer-services-info p {
+			}
+
+			#app-footer-services-info p a {
+				padding-top: 0;
+				padding-bottom: 0;
+			}
+
+			#app-footer-services-info p > em,
+			#app-footer-services-info p > span,
+			#app-footer-services-info p > .list-label {
+				display: inline-block;
+				vertical-align: middle;
+			}
+
+
+			#app-footer-services-info p > .list-label {
+				width: 60px;
+				margin-right: 6px;
+			}
+
+			#app-footer-services-info p > .list-label:after {
+				content: '：';
+			}
+
+
+	#app-footer-copyright-bar {
+		min-height: 92px;
+		border-top: 1px solid;
+		text-align: center;
+		}
+
+		#app-footer-copyright {
+			margin-top: 18px;
+			font-size: 12px;
+			line-height: 1;
+		}
+
+		#app-footer-attestations {
+			margin-top: 20px;
+			}
+
+			#app-footer-attestations a {
+				position: static;
+				display: inline;
+				padding: 0;
+				margin: 0;
+			}
+			#app-footer-attestations .attestation-logo {
+				position: relative;
+				display: inline-block;
+				margin: 0 12px;
+				padding: 0;
+				vertical-align: top;
+				height: 28px;
+				background-repeat: no-repeat;
+				background-image: url(../../assets/images/_common/attestation-logos.png);
+				background-position-y: 0;
+			}
+			#app-footer-attestations .attestation-logo:hover {
+				background-position-y: -28px;
+			}
+
+			#app-footer-attestations .attestation-logo.cheng-xin-wang-zhan {
+				width: 78px;
+				background-position-x: 0;
+			}
+			#app-footer-attestations .attestation-logo.ke-xin-wang-zhan {
+				width: 76px;
+				background-position-x: -88px;
+			}
+			#app-footer-attestations .attestation-logo.guan-wang-yan-zheng-an-quan-lian-meng {
+				width: 75px;
+				background-position-x: -174px;
+			}

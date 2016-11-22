@@ -2,27 +2,16 @@ html, body, button, textarea, input, select, option, .font-default {
 	font-family: 'Microsoft Yahei', 'Lucida Grande', 'SimHei', 'SimSun';
 }
 
-.card .card-head,
-.bill-time-exceeded,
-.tabular > .title,
+/*.tabular > .title,
 .tabular > .f-list > li,
 .pagination [role="button"],
 .pagination button,
 .dialog .dialog-body > .content .article p,
-.breadcrumbs,
+.breadcrumbs,*/
 #header-info-and-links,
 #app-footer-nav p,
 #app-footer-services-info,
-blockquote,
 .font-song-ti {
 	font-family: 'SimSun', serif;
 	font-size: 12px;
-}
-
-
-.font-important {
-	font-family: 'Tahoma';
-	font-size: 38px;
-	line-height: 1.5; /* 57px */
-	font-weight: bolder;
 }

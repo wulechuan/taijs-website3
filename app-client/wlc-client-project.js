@@ -49,12 +49,12 @@ module.exports = {
 					'base-_framework/**/*.css',
 					'!base-_framework/ie8-patch/**/*.css',
 
-					'base-of-this-project/0_iconfonts/**/*.css',
-					'base-of-this-project/1_fonts/**/*.css',
-					'base-of-this-project/2_layout/**/*.css',
+					'base-of-this-project/0-iconfonts/**/*.css',
+					'base-of-this-project/1-fonts/**/*.css',
+					'base-of-this-project/2-layout/**/*.css',
 				],
 				theme: [
-					'base-of-this-project/3_theme/**/*.css',
+					'base-of-this-project/3-theme/**/*.css',
 				]
 			}
 		},

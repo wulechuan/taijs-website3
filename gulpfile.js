@@ -229,8 +229,8 @@ gulp.task('before-everything', () => {
 
 	gulp.task('styles-iconfonts', ['before-everything'], () => {
 		return gulp.src([
-			pathSrcRoot+'/'+folderNameCSS+'/base-of-this-project/0_iconfonts/*',
-			'!'+pathSrcRoot+'/'+folderNameCSS+'/base-of-this-project/0_iconfonts/*.css' //前面加一个惊叹号，代表忽略这个glob。
+			pathSrcRoot+'/'+folderNameCSS+'/base-of-this-project/0-iconfonts/*',
+			'!'+pathSrcRoot+'/'+folderNameCSS+'/base-of-this-project/0-iconfonts/*.css' //前面加一个惊叹号，代表忽略这个glob。
 		])
 			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/'+folderNameCSS+'/base/'))
 		;
