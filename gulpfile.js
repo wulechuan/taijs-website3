@@ -100,6 +100,9 @@ const projectCaptionLog = chalk.blue(projectCaption);
 global.console.log = rawConsoleLog.bind(global.console, projectCaptionLog);
 global.wlcLog = function() {
 	let args = Array.prototype.slice.apply(arguments);
+	args.forEach(function(msg, i, args) {
+		args[i] = chalk.magenta(msg);
+	});
 
 	let time = new Date();
 	let tH = time.getHours();
@@ -472,8 +475,6 @@ gulp.task('build-entire-app', ['删除临时文件夹和临时文件']);
 
 
 gulp.task('监视【开发源码】文件夹', ['删除临时文件夹和临时文件'], () => {
-	wlcLog('           >>>>>>>>  Starting watching development folder...');
-
 	return gulp.watch(
 		[pathSrcRoot+'/**/*'], // 监视这个文件夹
 	 	['build-entire-app']   // 一旦有文件改动，执行这个任务

@@ -9,65 +9,6 @@
 }
 
 
-.card {
-	font-size: 14px;
-	display: block;
-	margin: 20px 0;
-	border-style: solid;
-	border-color: #ededed;
-	border-width: 1px;
-	}
-
-	.card .card-head,
-	.card .card-body {
-		position: relative;
-		border-style: inherit;
-		border-color: inherit;
-	}
-
-	.card .card-head {
-		border-width: 1px;
-		margin: -1px;
-		margin-bottom: 0;
-	}
-
-	.card .card-head .cell {
-		padding: 0.5em;
-		margin: -0.5em;
-	}
-
-	.card .card-head .cell.caption-cell {
-		position: static;
-		display: inline;
-	}
-
-	.card .card-head .cell.last-cell {
-		position: absolute;
-		right: 20px;
-		top: 0.5em;
-		bottom: 0.5em;
-	}
-
-	.card .card-body {
-		border-width: 0;
-		margin: 0;
-	}
-
-	.card .cell {
-		display: block;
-		/* position: absolute; */
-		border-style: inherit;
-		border-color: inherit;
-	}
-
-	.card .cell.last-cell {
-		display: block;
-		position: absolute;
-		border-style: inherit;
-		border-color: inherit;
-	}
-
-
 #app-header {
 	position: relative;
 	z-index: 9;
