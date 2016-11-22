@@ -46,14 +46,15 @@ module.exports = {
 				base: [
 					// 下面壹壹列出各个glob，目的是保证这些css文件合并的顺序。
 					// 我们知道，错误的CSS顺序可能导致错误的结果。
-					'base-_framework/_reset*.css',
-					'base-of-this-project/iconfonts/*.css',
-					'base-_framework/base.css',
-					// 'base-_framework/base-ie8.css',
-					'base-of-this-project/_fonts*.css',
-					'base-of-this-project/layout.css',
-					'base-of-this-project/theme-_default.css',
-					// 'base-of-this-project/theme-_default-ie8.css'
+					'base-_framework/**/*.css',
+					'!base-_framework/ie8-patch/**/*.css',
+
+					'base-of-this-project/0_iconfonts/**/*.css',
+					'base-of-this-project/1_fonts/**/*.css',
+					'base-of-this-project/2_layout/**/*.css',
+				],
+				theme: [
+					'base-of-this-project/3_theme/**/*.css',
 				]
 			}
 		},

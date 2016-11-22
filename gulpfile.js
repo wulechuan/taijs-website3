@@ -72,25 +72,23 @@ const del   = require('del');
 const clean = require('gulp-clean');
 
 // 用于在管道流程中过滤掉一些Globs。
-const filter = require('gulp-filter');
+const filter        = require('gulp-filter');
 
-// const groupConcat = require('gulp-group-concat');
-const concat = require('gulp-concat');
-const inject = require('gulp-inject');
+const concatInto    = require('gulp-concat');
+const inject        = require('gulp-inject');
 
 // 方便的文件编辑插件
 const changeContent = require('gulp-change');
 
-const eslint = require('gulp-eslint');
-const minifyJS = require('gulp-uglify');
-const minifyCSS = require('gulp-cssmin');
-const minifyHTML = require('gulp-htmlmin');
-const sourcemaps = require('gulp-sourcemaps');
+const eslint        = require('gulp-eslint');
+const minifyJS      = require('gulp-uglify');
+const minifyCSS     = require('gulp-cssmin');
+const minifyHTML    = require('gulp-htmlmin');
+const sourcemaps    = require('gulp-sourcemaps');
 
 
-const chalk = require('chalk');
+const chalk        = require('chalk');
 const logFileSizes = require('gulp-size');
-const logLine = '\n'+'-'.repeat(79);
 
 
 
@@ -159,8 +157,13 @@ gulp.task('before-everything', () => {
 
 
 (function devAllCSSAndIconFontsTasks() {
-	var globsForBaseCSS = WLCClientProjectSettings.globs.filesViaConcatenation.CSS.base; 
+	let globsForBaseCSS = WLCClientProjectSettings.globs.filesViaConcatenation.CSS.base; 
 		globsForBaseCSS.forEach((glob, i, globs) => {
+			globs[i] = pathSrcRoot+'/'+folderNameCSS+'/'+glob;
+		});
+
+	let globsForBaseThemeCSS = WLCClientProjectSettings.globs.filesViaConcatenation.CSS.theme; 
+		globsForBaseThemeCSS.forEach((glob, i, globs) => {
 			globs[i] = pathSrcRoot+'/'+folderNameCSS+'/'+glob;
 		});
 
@@ -170,58 +173,53 @@ gulp.task('before-everything', () => {
 
 
 	gulp.task('styles-base', ['before-everything'], () => {
+		const baseCSSFileName = 'base.min.css';
 		if (cssBuildingOptions.shouldGenerateSoureMaps) {
 			return gulp.src(globsForBaseCSS)
 				.pipe(sourcemaps.init())
-					.pipe(concat('base.min.css'))
+					.pipe(concatInto(baseCSSFileName))
 					// .pipe(minifyCSS(cssminOptions))
 				.pipe(sourcemaps.write('.'))
 				.pipe(gulp.dest(pathForSavingBaseCSS))
 			;
 		} else {
 			return gulp.src(globsForBaseCSS)
-				.pipe(concat('base.min.css'))
+				.pipe(concatInto(baseCSSFileName))
 				// .pipe(minifyCSS(cssminOptions))
 				.pipe(gulp.dest(pathForSavingBaseCSS))
 			;
 		}
 	});
 
-	gulp.task('styles-base-rest-files', ['before-everything'], () => {
-		let globsForRestOfBaseCSS = [
-			pathSrcRoot+'/'+folderNameCSS+'/base-_framework/**/*.css',
-			pathSrcRoot+'/'+folderNameCSS+'/base-of-this-project/**/*.css'
-		];
 
-		globsForBaseCSS.forEach((glob) => {
-			globsForRestOfBaseCSS.push('!'+glob); //前面加一个惊叹号，代表忽略这个glob。
-		});
-
-
+	gulp.task('styles-base-theme', ['before-everything'], () => {
+		const baseThemeCSSFileName = 'theme-_default.min.css';
 		if (cssBuildingOptions.shouldGenerateSoureMaps) {
-			return gulp.src(globsForRestOfBaseCSS)
+			return gulp.src(globsForBaseThemeCSS)
 				.pipe(sourcemaps.init())
-					.pipe(minifyCSS(cssminOptions))
+					.pipe(concatInto(baseThemeCSSFileName))
+					// .pipe(minifyCSS(cssminOptions))
 				.pipe(sourcemaps.write('.'))
-				.pipe(gulp.dest(pathForSavingBaseCSS)) // 将文件写入指定文件夹
+				.pipe(gulp.dest(pathForSavingBaseCSS))
 			;
 		} else {
-			return gulp.src(globsForRestOfBaseCSS)
-				.pipe(minifyCSS(cssminOptions))
-				.pipe(gulp.dest(pathForSavingBaseCSS)) // 将文件写入指定文件夹
+			return gulp.src(globsForBaseThemeCSS)
+				.pipe(concatInto(baseThemeCSSFileName))
+				// .pipe(minifyCSS(cssminOptions))
+				.pipe(gulp.dest(pathForSavingBaseCSS))
 			;
 		}
 	});
 
 
-	gulp.task('styles-iconfonts', ['before-everything'], () => {
-		return gulp.src([
-			pathSrcRoot+'/assets/styles/base-of-this-project/iconfonts/*',
-			'!'+pathSrcRoot+'/assets/styles/base-of-this-project/iconfonts/*.css' //前面加一个惊叹号，代表忽略这个glob。
-		])
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/assets/styles/base/')) // 将文件写入指定文件夹
-		;
-	});
+	// gulp.task('styles-iconfonts', ['before-everything'], () => {
+	// 	return gulp.src([
+	// 		pathSrcRoot+'/assets/styles/base-of-this-project/iconfonts/*',
+	// 		'!'+pathSrcRoot+'/assets/styles/base-of-this-project/iconfonts/*.css' //前面加一个惊叹号，代表忽略这个glob。
+	// 	])
+	// 		.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/assets/styles/base/')) // 将文件写入指定文件夹
+	// 	;
+	// });
 
 
 	gulp.task('styles-specific', ['before-everything'], () => {
@@ -258,8 +256,8 @@ gulp.task('before-everything', () => {
 
 	gulp.task('styles', [
 		'styles-base',
-		'styles-base-rest-files',
-		'styles-iconfonts',
+		'styles-base-theme',
+		// 'styles-iconfonts',
 		'styles-specific'
 	]);
 })();
@@ -280,7 +278,7 @@ gulp.task('before-everything', () => {
 	gulp.task('scripts-minify', ['es-lint'], () => {
 		return gulp.src([pathSrcRoot+'/assets/scripts/**/*.js'])
 			// .pipe(sourcemaps.init())
-				// .pipe(concat('base.min.js'))
+				// .pipe(concatInto('base.min.js'))
 				// .pipe(minifyJS({preserveComments: 'some'}))
 				.pipe(rename((fullPathName) => {
 					fullPathName.basename += '.min';
