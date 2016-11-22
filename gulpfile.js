@@ -165,7 +165,7 @@ function genOptionsForHTMLMin(shouldMinifyHTML) {
 // 因为这些动作的返回值，是一个个Stream对象，返回这些Stream对象才能保证各个相互依赖的任务
 // 依照预定顺序执行；否则，虽然任务可能会被执行，却不能保证依照预定顺序，从而可能造成晚期错误的结果。
 
-gulp.task('before-everything', () => {
+gulp.task('最初的准备工作', () => {
 	wlcLog('预先删除临时文件……');
 	return del([pathNewBuildTempRoot]);
 });
@@ -188,7 +188,7 @@ gulp.task('before-everything', () => {
 	const cssminOptions = genOptionsForCSSMin();
 
 
-	gulp.task('CSS-基本定义', ['before-everything'], () => {
+	gulp.task('CSS-基本定义', ['最初的准备工作'], () => {
 		const baseCSSFileName = 'base.min.css';
 		if (cssBuildingOptions.shouldGenerateSoureMaps) {
 			return gulp.src(globsForBaseCSS)
@@ -208,7 +208,7 @@ gulp.task('before-everything', () => {
 	});
 
 
-	gulp.task('CSS-色彩主题-默认主题', ['before-everything'], () => {
+	gulp.task('CSS-色彩主题-默认主题', ['最初的准备工作'], () => {
 		const baseThemeCSSFileName = 'theme-_default.min.css';
 		if (cssBuildingOptions.shouldGenerateSoureMaps) {
 			return gulp.src(globsForThemeDefaultCSS)
@@ -228,7 +228,7 @@ gulp.task('before-everything', () => {
 	});
 
 
-	gulp.task('styles-iconfonts', ['before-everything'], () => {
+	gulp.task('styles-iconfonts', ['最初的准备工作'], () => {
 		return gulp.src([
 			pathSrcRoot+'/'+folderNameCSS+'/base-of-this-project/0-iconfonts/*',
 			'!'+pathSrcRoot+'/'+folderNameCSS+'/base-of-this-project/0-iconfonts/*.css' //前面加一个惊叹号，代表忽略这个glob。
@@ -238,7 +238,7 @@ gulp.task('before-everything', () => {
 	});
 
 
-	gulp.task('styles-specific', ['before-everything'], () => {
+	gulp.task('styles-specific', ['最初的准备工作'], () => {
 		const pathCSSTargetFolder = pathNewDevBuildCacheRoot+'/'+folderNameCSS+'/pages';
 		let globsForCSSForSpecificPages = [
 			pathSrcRoot+'/'+folderNameCSS+'/pages/**/*.css'
@@ -281,7 +281,7 @@ gulp.task('before-everything', () => {
 
 
 (function devAllJSTasks() {
-	gulp.task('es-lint', ['before-everything'], () => {
+	gulp.task('es-lint', ['最初的准备工作'], () => {
 		return gulp.src([pathSrcRoot+'/'+folderNameJS+'/**/*.js'])
 			.pipe(eslint())
 			.pipe(eslint.format())
@@ -310,13 +310,17 @@ gulp.task('before-everything', () => {
 
 
 (function devAllHTMLTasks() {
-	gulp.task('将所有HTML片断文件复制到缓存文件夹',  ['before-everything'], () => {
+	gulp.task('将所有HTML片断文件复制到【开发预览缓存文件夹】', [
+		'最初的准备工作'
+	], () => {
 		return gulp.src([pathSrcRoot+'/'+folderNameHTMLSnippets+'/**/*'])
 			.pipe(gulp.dest(pathNewBuildTempRoot+'/'+folderNameHTMLSnippets))
 		;
 	});
 
-	gulp.task('预处理缓存文件夹中的HTML片断',  ['将所有HTML片断文件复制到缓存文件夹'], () => {
+	gulp.task('预处理【开发预览缓存文件夹】中的HTML片断', [
+		'将所有HTML片断文件复制到【开发预览缓存文件夹】'
+	], () => {
 		return gulp.src([
 			pathNewBuildTempRoot+'/'+folderNameHTMLSnippets+'/module-app-footer.html'
 		])
@@ -330,7 +334,7 @@ gulp.task('before-everything', () => {
 		;
 	});
 
-	gulp.task('将HTML片断按需注入各个HTML页面中', ['预处理缓存文件夹中的HTML片断'], () => {
+	gulp.task('将HTML片断按需注入各个HTML页面中', ['预处理【开发预览缓存文件夹】中的HTML片断'], () => {
 		const globsSourceHTMLSnippets = pathSrcRoot+'/'+folderNameHTMLSnippets;
 		const globsAllSourceHTMLFilesInAllFolders = pathSrcRoot+'/**/*.html'; // 其中包含了index.html
 
@@ -406,34 +410,26 @@ gulp.task('before-everything', () => {
 
 
 (function devAllAssetsTasks() {
-	gulp.task('处理所有来自第三方厂商的文件', ['before-everything'], () => {
+	gulp.task('处理所有来自第三方厂商的文件', ['最初的准备工作'], () => {
 		return gulp.src(pathSrcRoot+'/assets-vendors/**/*')
 			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/assets-vendors/'))
 		;
 	});
 
-
-	gulp.task('fonts', ['before-everything'], () => {
+	gulp.task('处理所有非CSS、非JS的自主资源文件', ['最初的准备工作'], () => {
 		return gulp.src([
-			pathSrcRoot+'/fonts/**/*'
+			pathSrcRoot+'/'+folderNameAssets+'/**/*',
+			'!'+pathSrcRoot+'/'+folderNameCSS+'/**/*',
+			'!'+pathSrcRoot+'/'+folderNameCSS,
+			'!'+pathSrcRoot+'/'+folderNameJS+'/**/*',
+			'!'+pathSrcRoot+'/'+folderNameJS,
 		])
-			.pipe(logFileSizes({title: '>>>>>>>>  Reporting Files:  Fonts'})) // 为了装逼，在命令行窗口中打印一下文件尺寸
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/fonts'))
+			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/'+folderNameAssets))
 		;
 	});
 
-	gulp.task('images', ['before-everything'], () => {
-		return gulp.src([
-			pathSrcRoot+'/images/**/*'
-		])
-			.pipe(logFileSizes({title: '>>>>>>>>  Reporting Files: Images'})) // 为了装逼，在命令行窗口中打印一下文件尺寸
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/images'))
-		;
-	});
-
-	gulp.task('assets', [
-		'fonts',
-		'images',
+	gulp.task('处理所有自主资源文件（图片、字体等）', [
+		'处理所有非CSS、非JS的自主资源文件',
 		'styles',
 		'scripts'
 	]);
@@ -447,23 +443,21 @@ gulp.task('before-everything', () => {
 
 gulp.task('prepare-all-new-files-in-cache', [
 	'处理所有来自第三方厂商的文件',
-	'assets',
+	'处理所有自主资源文件（图片、字体等）',
 	'html'
 ]);
 
-gulp.task('delete-old-dist', ['prepare-all-new-files-in-cache'], () => {
-	wlcLog('删除旧有的【开发预览】文件夹……');
+gulp.task('删除旧有【开发预览】文件夹', ['prepare-all-new-files-in-cache'], () => {
 	return del([pathDevBuildRoot]);
 });
 
-gulp.task('将【开发预览缓存】发布为新的【开发预览】', ['delete-old-dist'], () => {
+gulp.task('将【开发预览缓存】发布为新的【开发预览】', ['删除旧有【开发预览】文件夹'], () => {
 	wlcLog('将【'+folderNameNewDevBuildCacheRoot+'】更名为【'+folderNameDevBuildRoot+'】……');
 	fileSystem.renameSync(pathNewDevBuildCacheRoot, pathDevBuildRoot);
 });
 
 
 gulp.task('删除临时文件夹和临时文件', ['将【开发预览缓存】发布为新的【开发预览】'], () => {
-	wlcLog('最后，删除临时文件……');
 	return del([pathNewBuildTempRoot]);
 });
 
@@ -472,7 +466,7 @@ gulp.task('删除临时文件夹和临时文件', ['将【开发预览缓存】�
 
 
 
-gulp.task('build-entire-app', ['删除临时文件夹和临时文件']);
+gulp.task('构建整个App', ['删除临时文件夹和临时文件']);
 
 
 gulp.task('监视【开发源码】文件夹', ['删除临时文件夹和临时文件'], () => {
@@ -481,7 +475,7 @@ gulp.task('监视【开发源码】文件夹', ['删除临时文件夹和临时�
 			pathWLCConfigurationFile,
 			pathSrcRoot+'/**/*'
 		],
-	 	['build-entire-app']   // 一旦有文件改动，执行这个任务
+	 	['构建整个App']   // 一旦有文件改动，执行这个任务
 	)
 		.on('change', (/*event, done*/) => {
 			wlcLog(logLine+'\n\t'+new Date().toLocaleString()+' 【'+pathSrcRoot+'】变动了!'+logLine);
@@ -494,7 +488,7 @@ gulp.task('监视【开发源码】文件夹', ['删除临时文件夹和临时�
 	// 下面这个任务就是 “default” 任务。
 	// 当我们从命令行窗口输入gulp并回车时，gulp会自动从 default 任务开始执行。
 	gulp.task('default', [
-		'build-entire-app',
+		'构建整个App',
 		'监视【开发源码】文件夹'
 	], (onThisTaskDone) => {
 		onThisTaskDone();
