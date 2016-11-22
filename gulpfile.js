@@ -278,7 +278,7 @@ gulp.task('before-everything', () => {
 
 (function devAllJSTasks() {
 	gulp.task('es-lint', ['before-everything'], () => {
-		return gulp.src([pathSrcRoot+'/assets/scripts/**/*.js'])
+		return gulp.src([pathSrcRoot+'/'+folderNameJS+'/**/*.js'])
 			.pipe(eslint())
 			.pipe(eslint.format())
 		;
@@ -288,17 +288,15 @@ gulp.task('before-everything', () => {
 	// 虽然不先做 lint 代码审查，也可以同步压缩和输出脚本文件，但那样做意义不大。
 	// 更何况我们不希望未通过审查的新版代码覆盖旧版的代码。所以我故意这样安排。
 	gulp.task('scripts-minify', ['es-lint'], () => {
-		return gulp.src([pathSrcRoot+'/assets/scripts/**/*.js'])
+		return gulp.src([pathSrcRoot+'/'+folderNameJS+'/**/*.js'])
 			// .pipe(sourcemaps.init())
-				// .pipe(concatInto('base.min.js'))
-				// .pipe(minifyJS({preserveComments: 'some'}))
 				.pipe(rename((fullPathName) => {
 					fullPathName.basename += '.min';
 					return fullPathName;
 				}))
 			// .pipe(sourcemaps.write('.'))
 
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/assets/scripts'))
+			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/'+folderNameJS))
 		;
 	});
 
@@ -309,14 +307,14 @@ gulp.task('before-everything', () => {
 
 (function devAllHTMLTasks() {
 	gulp.task('copy-html-snippets-files-to-temp-folder',  ['before-everything'], () => {
-		return gulp.src([pathSrcRoot+'/html-snippets/**/*'])
-			.pipe(gulp.dest(pathNewBuildTempRoot+/html-snippets/))
+		return gulp.src([pathSrcRoot+'/'+folderNameHTMLSnippets+'/**/*'])
+			.pipe(gulp.dest(pathNewBuildTempRoot+'/'+folderNameHTMLSnippets))
 		;
 	});
 
 	gulp.task('pre-process-html-snippets',  ['copy-html-snippets-files-to-temp-folder'], () => {
 		return gulp.src([
-			pathNewBuildTempRoot+'/html-snippets/module-app-footer.html'
+			pathNewBuildTempRoot+'/'+folderNameHTMLSnippets+'/module-app-footer.html'
 		])
 			.pipe(
 				changeContent((fileContentString) => {
@@ -324,7 +322,7 @@ gulp.task('before-everything', () => {
 					return fileContentString.replace(/(\&copy\;\s*)\d+/g, '$1'+thisYear);
 				})
 			)
-			.pipe(gulp.dest(pathNewBuildTempRoot+'/html-snippets/'))
+			.pipe(gulp.dest(pathNewBuildTempRoot+'/'+folderNameHTMLSnippets))
 		;
 	});
 
@@ -389,19 +387,12 @@ gulp.task('before-everything', () => {
 	});
 
 	gulp.task('remove-html-snippets-in-dev-cache',  ['html-inject-snippets'], () => {
-		return del([
-			// pathNewDevBuildCacheRoot+'/html-snippets/**/*',
-			pathNewDevBuildCacheRoot+'/html-snippets'
-		]);
+		return del([pathNewDevBuildCacheRoot+'/'+folderNameHTMLSnippets]);
 	});
 
 	gulp.task('html', ['remove-html-snippets-in-dev-cache'], () => {
 		let htmlminOptions = genOptionsForHTMLMin(runtime.buildingOptions.forCurrentMode.shouldMinifyHTML);
-
-		return gulp.src([
-			pathNewDevBuildCacheRoot+'/**/*.html',
-			'!'+pathNewDevBuildCacheRoot+'/html-snippets/*'
-		])
+		return gulp.src([pathNewDevBuildCacheRoot+'/**/*.html'])
 			.pipe(minifyHTML(htmlminOptions))
 			.pipe(gulp.dest(pathNewDevBuildCacheRoot))
 		;
