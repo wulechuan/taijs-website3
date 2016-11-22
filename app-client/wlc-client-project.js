@@ -2,24 +2,24 @@
 //
 // {project-root}
 //   └─ {app-client-root}
-//       ├─ source        <-- 这是开发源码（Development）文件夹
+//       ├─ source        <-- 这是【开发源码】文件夹
 //       │   ├─ html
 //       │   └─ assets
 //       │       ├─ images
 //       │       ├─ scripts
 //       │       └─ styles
 //       │
-//       ├─build-dev      <-- 这是开发预览文件夹
+//       ├─build-dev      <-- 这是【开发预览】文件夹
 //       │
-//       ├─build-release  <-- 这是正式发布文件夹
+//       ├─build-release  <-- 这是【正式发布】文件夹
 //       │
-//       └─node_modules   <-- 这是node插件文件夹，纯粹供node使用，与最终前端产品毫无干系
+//       └─node_modules   <-- 这是nodejs模块文件夹，纯粹供nodejs使用，与最终前端产品毫无干系
 
 
 
 
 module.exports = {
-	name: '泰金所\'16-11',
+	name: '泰金所\’16-11',
 	appFolderStructure: 'tranditional',
 	folderOf: {
 		srcRoot:                  'source',
