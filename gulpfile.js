@@ -38,7 +38,6 @@ const folderNameHTMLSnippets             = folderOf.HTMLSnippets;
 
 
 // runtime environment
-const projectCaptionLog = projectCaption;
 let runtime = {
 	buildingOptions: {
 		forCurrentMode: null,
@@ -89,20 +88,33 @@ const sourcemaps    = require('gulp-sourcemaps');
 
 const chalk        = require('chalk');
 const logFileSizes = require('gulp-size');
+const logLine      = '\n'+'-'.repeat(79);
 
 
 
 
 
 
-
-global.console.log = global.console.log.bind(global.console, chalk.blue(projectCaptionLog));
+const rawConsoleLog = global.console.log;
+const projectCaptionLog = chalk.blue(projectCaption);
+global.console.log = rawConsoleLog.bind(global.console, projectCaptionLog);
 global.wlcLog = function() {
 	let args = Array.prototype.slice.apply(arguments);
+
 	let time = new Date();
-	let timeStamp = '[' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds() + ']';
-	args.unshift(chalk.gray(timeStamp));
-	global.console.log.apply(global.console, args);
+	let tH = time.getHours();
+	let tM = time.getMinutes();
+	let tS = time.getSeconds();
+
+	tH = (tH < 10 ? '0' : '') + tH;
+	tM = (tM < 10 ? '0' : '') + tM;
+	tS = (tS < 10 ? '0' : '') + tS;
+	let timeStamp = chalk.white('[' + chalk.gray(tH + ':' + tM + ':' + tS)+ ']');
+
+	args.unshift(projectCaptionLog);
+	args.unshift(timeStamp);
+
+	rawConsoleLog.apply(global.console, args);
 };
 
 
@@ -212,14 +224,14 @@ gulp.task('before-everything', () => {
 	});
 
 
-	// gulp.task('styles-iconfonts', ['before-everything'], () => {
-	// 	return gulp.src([
-	// 		pathSrcRoot+'/assets/styles/base-of-this-project/iconfonts/*',
-	// 		'!'+pathSrcRoot+'/assets/styles/base-of-this-project/iconfonts/*.css' //前面加一个惊叹号，代表忽略这个glob。
-	// 	])
-	// 		.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/assets/styles/base/')) // 将文件写入指定文件夹
-	// 	;
-	// });
+	gulp.task('styles-iconfonts', ['before-everything'], () => {
+		return gulp.src([
+			pathSrcRoot+'/'+folderNameCSS+'/base-of-this-project/0_iconfonts/*',
+			'!'+pathSrcRoot+'/'+folderNameCSS+'/base-of-this-project/0_iconfonts/*.css' //前面加一个惊叹号，代表忽略这个glob。
+		])
+			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/'+folderNameCSS+'/base/'))
+		;
+	});
 
 
 	gulp.task('styles-specific', ['before-everything'], () => {
@@ -238,7 +250,7 @@ gulp.task('before-everything', () => {
 						return fullPathName;
 					}))
 				.pipe(sourcemaps.write('.'))
-				.pipe(gulp.dest(pathCSSTargetFolder)) // 将文件写入指定文件夹
+				.pipe(gulp.dest(pathCSSTargetFolder))
 			;
 		} else {
 			return gulp.src(globsForCSSForSpecificPages)
@@ -247,7 +259,7 @@ gulp.task('before-everything', () => {
 					fullPathName.basename += '.min';
 					return fullPathName;
 				}))
-				.pipe(gulp.dest(pathCSSTargetFolder)) // 将文件写入指定文件夹
+				.pipe(gulp.dest(pathCSSTargetFolder))
 			;
 		}
 	});
@@ -257,7 +269,7 @@ gulp.task('before-everything', () => {
 	gulp.task('styles', [
 		'styles-base',
 		'styles-base-theme',
-		// 'styles-iconfonts',
+		'styles-iconfonts',
 		'styles-specific'
 	]);
 })();
@@ -286,7 +298,7 @@ gulp.task('before-everything', () => {
 				}))
 			// .pipe(sourcemaps.write('.'))
 
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/assets/scripts')) // 将文件写入指定文件夹
+			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/assets/scripts'))
 		;
 	});
 
@@ -298,7 +310,7 @@ gulp.task('before-everything', () => {
 (function devAllHTMLTasks() {
 	gulp.task('copy-html-snippets-files-to-temp-folder',  ['before-everything'], () => {
 		return gulp.src([pathSrcRoot+'/html-snippets/**/*'])
-			.pipe(gulp.dest(pathNewBuildTempRoot+/html-snippets/)) // 将文件写入指定文件夹
+			.pipe(gulp.dest(pathNewBuildTempRoot+/html-snippets/))
 		;
 	});
 
@@ -312,7 +324,7 @@ gulp.task('before-everything', () => {
 					return fileContentString.replace(/(\&copy\;\s*)\d+/g, '$1'+thisYear);
 				})
 			)
-			.pipe(gulp.dest(pathNewBuildTempRoot+'/html-snippets/')) // 将文件写入指定文件夹
+			.pipe(gulp.dest(pathNewBuildTempRoot+'/html-snippets/'))
 		;
 	});
 
@@ -355,7 +367,7 @@ gulp.task('before-everything', () => {
 		}
 
 		return globsOfCurrentStage
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot)) // 将文件写入指定文件夹
+			.pipe(gulp.dest(pathNewDevBuildCacheRoot))
 		;
 
 
@@ -376,8 +388,14 @@ gulp.task('before-everything', () => {
 				}
 	});
 
+	gulp.task('remove-html-snippets-in-dev-cache',  ['html-inject-snippets'], () => {
+		return del([
+			// pathNewDevBuildCacheRoot+'/html-snippets/**/*',
+			pathNewDevBuildCacheRoot+'/html-snippets'
+		]);
+	});
 
-	gulp.task('html', ['html-inject-snippets'], () => {
+	gulp.task('html', ['remove-html-snippets-in-dev-cache'], () => {
 		let htmlminOptions = genOptionsForHTMLMin(runtime.buildingOptions.forCurrentMode.shouldMinifyHTML);
 
 		return gulp.src([
@@ -385,8 +403,7 @@ gulp.task('before-everything', () => {
 			'!'+pathNewDevBuildCacheRoot+'/html-snippets/*'
 		])
 			.pipe(minifyHTML(htmlminOptions))
-			.pipe(logFileSizes({title: '>>>>>>>>  Reporting Files:   HTML', showFiles: false})) // 为了装逼，在命令行窗口中打印一下文件尺寸
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot)) // 将文件写入指定文件夹
+			.pipe(gulp.dest(pathNewDevBuildCacheRoot))
 		;
 	});
 })();
@@ -396,7 +413,7 @@ gulp.task('before-everything', () => {
 (function devAllAssetsTasks() {
 	gulp.task('assets-vendors', ['before-everything'], () => {
 		return gulp.src(pathSrcRoot+'/assets-vendors/**/*')
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/assets-vendors/')) // 将文件写入指定文件夹
+			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/assets-vendors/'))
 		;
 	});
 
@@ -406,7 +423,7 @@ gulp.task('before-everything', () => {
 			pathSrcRoot+'/fonts/**/*'
 		])
 			.pipe(logFileSizes({title: '>>>>>>>>  Reporting Files:  Fonts'})) // 为了装逼，在命令行窗口中打印一下文件尺寸
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/fonts')) // 将文件写入指定文件夹
+			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/fonts'))
 		;
 	});
 
@@ -415,7 +432,7 @@ gulp.task('before-everything', () => {
 			pathSrcRoot+'/images/**/*'
 		])
 			.pipe(logFileSizes({title: '>>>>>>>>  Reporting Files: Images'})) // 为了装逼，在命令行窗口中打印一下文件尺寸
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/images')) // 将文件写入指定文件夹
+			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/images'))
 		;
 	});
 
@@ -444,26 +461,13 @@ gulp.task('delete-old-dist', ['prepare-all-new-files-in-cache'], () => {
 	return del([pathDevBuildRoot]);
 });
 
-gulp.task('ship-cached-files', ['delete-old-dist'], () => {
-	var shouldCopyFilesInsteadOfRenameFolder = false;
-
-	if (shouldCopyFilesInsteadOfRenameFolder) {
-
-		wlcLog('           >>>>>>>>  Copying all files from "'+pathNewDevBuildCacheRoot+'" to "'+pathDevBuildRoot+'"...');
-		return gulp.src([pathNewDevBuildCacheRoot+'/**/*'])
-			.pipe(gulp.dest(pathDevBuildRoot)) // 将文件写入指定文件夹
-		;
-
-	} else {
-
-		wlcLog('           >>>>>>>>  Reanming "'+pathNewDevBuildCacheRoot+'" folder into "'+pathDevBuildRoot+'"...');
-		fileSystem.renameSync(pathNewDevBuildCacheRoot, pathDevBuildRoot);
-
-	}
+gulp.task('将【开发预览缓存】发布为新的【开发预览】', ['delete-old-dist'], () => {
+	wlcLog('将【'+folderNameNewDevBuildCacheRoot+'】更名为【'+folderNameDevBuildRoot+'】……');
+	fileSystem.renameSync(pathNewDevBuildCacheRoot, pathDevBuildRoot);
 });
 
 
-gulp.task('finishing-after-shipping', ['ship-cached-files'], () => {
+gulp.task('删除临时文件夹和临时文件', ['将【开发预览缓存】发布为新的【开发预览】'], () => {
 	wlcLog('最后，删除临时文件……');
 	return del([pathNewBuildTempRoot]);
 });
@@ -473,10 +477,10 @@ gulp.task('finishing-after-shipping', ['ship-cached-files'], () => {
 
 
 
-gulp.task('build-entire-app', ['finishing-after-shipping']);
+gulp.task('build-entire-app', ['删除临时文件夹和临时文件']);
 
 
-gulp.task('watch-dev-folder', ['finishing-after-shipping'], () => {
+gulp.task('监视【开发源码】文件夹', ['删除临时文件夹和临时文件'], () => {
 	wlcLog('           >>>>>>>>  Starting watching development folder...');
 
 	return gulp.watch(
@@ -484,11 +488,7 @@ gulp.task('watch-dev-folder', ['finishing-after-shipping'], () => {
 	 	['build-entire-app']   // 一旦有文件改动，执行这个任务
 	)
 		.on('change', (/*event, done*/) => {
-			wlcLog('\n');
-			wlcLog('-----------------------------------------------------------');
-			wlcLog(new Date().toLocaleString());
-			wlcLog('Wulechuan is telling you that some files were just changed.');
-			wlcLog('-----------------------------------------------------------');
+			wlcLog(logLine+'\n\t'+new Date().toLocaleString()+' 【'+pathSrcRoot+'】变动了!'+logLine);
 		})
 	;
 });
@@ -499,7 +499,7 @@ gulp.task('watch-dev-folder', ['finishing-after-shipping'], () => {
 	// 当我们从命令行窗口输入gulp并回车时，gulp会自动从 default 任务开始执行。
 	gulp.task('default', [
 		'build-entire-app',
-		'watch-dev-folder'
+		'监视【开发源码】文件夹'
 	], (onThisTaskDone) => {
 		onThisTaskDone();
 	});
