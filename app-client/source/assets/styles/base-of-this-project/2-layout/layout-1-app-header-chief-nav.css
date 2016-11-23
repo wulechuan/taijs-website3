@@ -1,3 +1,27 @@
+#app-header-chief-bar {
+    border-bottom: 1px solid;
+    }
+
+    #app-header-chief-bar > .width-wrap {
+        height: 4rem;
+        line-height: 4rem;
+    }
+
+    #taijs-logo {
+        display: inline-block;
+        vertical-align: top;
+        padding: 11px;
+        margin: 0 11px 0 -11px;
+    }
+
+    #app-header-chief-bar > .width-wrap > .docking {
+        height: 100%;
+        padding: 0 10px;
+        margin-right: -10px;
+        z-index: 5;
+    }
+
+
 #app-chief-nav .menu.level-2,
 #app-chief-nav .menu.level-1 > .menu-item > .deco {
 	box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.147);

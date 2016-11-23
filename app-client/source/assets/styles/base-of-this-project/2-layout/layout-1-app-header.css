@@ -72,15 +72,11 @@
 
 
     #app-header-info-and-links .mobile-app button {
-        padding-left: 0.4em; /* the icon is very thin/narrow */
-    }
-
-    #app-header-info-and-links .mobile-app button .iconfont {
-        width: 0.7em; /* the icon is very thin/narrow */
+        padding-left: 0.4rem; /* the icon is very thin/narrow */
     }
 
     #app-header-info-and-links .mobile-app button > .label {
-        padding-left: 0.2em; /* the icon is very thin/narrow */
+        padding-left: 0.2rem; /* the icon is very thin/narrow */
     }
 
     #app-header-info-and-links .sns .label {
@@ -89,37 +85,8 @@
     }
 
     #app-header-info-and-links .sns .weixin .floating-layer .columns {
-        margin: -5px;
+        margin: -0.25rem;
     }
     #app-header-info-and-links .sns .weixin .floating-layer .col {
-        padding: 5px;
-    }
-
-
-
-
-
-
-
-#app-header-chief-bar {
-    border-bottom: 1px solid;
-    }
-
-    #app-header-chief-bar > .width-wrap {
-        height: 4rem;
-        line-height: 4rem;
-    }
-
-    #taijs-logo {
-        display: inline-block;
-        vertical-align: top;
-        padding: 11px;
-        margin: 0 11px 0 -11px;
-    }
-
-    #app-header-chief-bar > .width-wrap > .docking {
-        height: 100%;
-        padding: 0 10px;
-        margin-right: -10px;
-        z-index: 5;
+        padding: 0.25rem;
     }
