@@ -2,43 +2,24 @@
 	background-color: #333;
 	}
 
-	#app-header-info-and-links {
-		border-bottom-color: #eee;
-		}
+	#app-header em,
+	#app-header a:visited,
+	#app-header a:link,
+	#app-header a,
+	#app-header {
+		color: #999;
+	}
 
-		#app-header-user-account-commands .menu.level-1 > .menu-item > a > .label,
-		#app-header-user-account-commands .menu.level-1 > .menu-item > .label,
-		#app-header-info-and-links {
-			color: #666;
-		}
-
-		#app-header-info-and-links a:hover,
-		#app-header-info-and-links .floating-layer-set:hover button.simple-look,
-		#app-header-info-and-links button.simple-look:hover {
-			background-color: #f3f3f3;
-		}
-
-		#app-header-info-and-links a,
-		#app-header-info-and-links a:link,
-		#app-header-info-and-links a:visited {
-			color: #666;
-		}
-
-		#app-header-info-and-links .iconfont {
-			color: #999;
-		}
-
-		#app-header-contacts .tel em {
-			color: #666;
-		}
+	#app-header-info-and-links a:hover,
+	#app-header-info-and-links .floating-layer-set:hover button.simple-look,
+	#app-header-info-and-links button.simple-look:hover {
+		background-color: rgba(255, 255, 255, 0.1);
+	}
 
 	#app-header-chief-bar {
-		border-bottom-color: #eee;
-		}
-
-		#app-header-chief-bar > .width-wrap > .docking {
-			background-color: white;
-		}
+		background-color: rgba(255, 255, 255, 0.9);
+		border-bottom-color: rgba(160, 160, 160, 0.9);
+	}
 
 
 #app-footer {

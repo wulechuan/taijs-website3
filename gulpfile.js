@@ -2,16 +2,55 @@
 //
 // {project-root}
 //   └─ app-client
-const pathClientAppRoot = './app-client/';
+const folderNameClientAppRoot = 'app-client';
 const fileNameWlcClientProjectJS = 'wlc-client-project.js';
 
 
+const gulp = require('gulp');
 
-const pathWLCConfigurationFile = pathClientAppRoot+fileNameWlcClientProjectJS;
+// Nodejs 自带的模块。
+const fileSystem = require('fs');
+const path = require('path');
+
+
+// 方便好用的重命名文件工具
+const rename = require('gulp-rename');
+
+
+// 用来删除文件，例如，总是在输出之前先删除所有旧版输出文件。
+// 每当文件改名时，确保不残留使用旧名字的文件。
+const del   = require('del');
+// const clean = require('gulp-clean');
+
+
+// 用于在管道流程中过滤掉一些Globs。
+// // const filter        = require('gulp-filter');
+
+
+// 文件内容编辑工具
+const concatInto    = require('gulp-concat');
+const inject        = require('gulp-inject');
+const changeContent = require('gulp-change');
+
+
+// 语法检查与代码压缩
+const eslint        = require('gulp-eslint');
+const minifyJS      = require('gulp-uglify');
+const minifyCSS     = require('gulp-cssmin');
+const minifyHTML    = require('gulp-htmlmin');
+const sourcemaps    = require('gulp-sourcemaps');
+
+
+// 在命令行环境打印彩色文字
+const chalk        = require('chalk');
+
+const pathClientAppRoot = path.join(module.id.replace(/[^\\\/]*$/, ''), folderNameClientAppRoot);
+
+
+
+const pathWLCConfigurationFile = path.join(pathClientAppRoot, fileNameWlcClientProjectJS);
 const WLCClientProjectSettings = require(pathWLCConfigurationFile);
 const projectCaption = WLCClientProjectSettings.name || 'untitled';
-
-
 
 let folderOf = WLCClientProjectSettings.folderOf;
 
@@ -23,12 +62,12 @@ const folderNameNewBuildTempRoot         = folderOf.newBuildTempRoot;
 const folderNameNewDevBuildCacheRoot     = folderOf.newDevBuildCacheRoot;
 const folderNameNewReleaseBuildCacheRoot = folderOf.newReleaseBuildCacheRoot;
 
-const pathSrcRoot                        = pathClientAppRoot + folderNameSrcRoot;
-const pathDevBuildRoot                   = pathClientAppRoot + folderNameDevBuildRoot;
-const pathReleaseBuildRoot               = pathClientAppRoot + folderNameReleaseBuildRoot;
-const pathNewBuildTempRoot               = pathClientAppRoot + folderNameNewBuildTempRoot;
-const pathNewDevBuildCacheRoot           = pathClientAppRoot + folderNameNewDevBuildCacheRoot;
-const pathNewReleaseBuildCacheRoot       = pathClientAppRoot + folderNameNewReleaseBuildCacheRoot;
+const pathSrcRoot                        = path.join(pathClientAppRoot, folderNameSrcRoot);
+const pathDevBuildRoot                   = path.join(pathClientAppRoot, folderNameDevBuildRoot);
+const pathReleaseBuildRoot               = path.join(pathClientAppRoot, folderNameReleaseBuildRoot);
+const pathNewBuildTempRoot               = path.join(pathClientAppRoot, folderNameNewBuildTempRoot);
+const pathNewDevBuildCacheRoot           = path.join(pathClientAppRoot, folderNameNewDevBuildCacheRoot);
+const pathNewReleaseBuildCacheRoot       = path.join(pathClientAppRoot, folderNameNewReleaseBuildCacheRoot);
 
 
 // sub folders
@@ -42,7 +81,7 @@ const folderNameHTMLSnippets             = folderOf.HTMLSnippets;
 let runtime = {
 	buildingOptions: {
 		forCurrentMode: null,
-		forDevMode: WLCClientProjectSettings.buildFor.dev,
+		forDevMode:     WLCClientProjectSettings.buildFor.dev,
 		forReleaseMode: WLCClientProjectSettings.buildFor.release
 	},
 	isInReleaseMode: false
@@ -56,46 +95,7 @@ runtime.buildingOptions.forCurrentMode =
 
 
 
-
-
-const gulp = require('gulp');
-
-// Nodejs 自带的 FileSystem 模块。
-const fileSystem = require('fs');
-
-// 方便好用的重命名文件工具
-const rename = require('gulp-rename');
-
-// 用来删除文件，例如，总是在输出之前先删除所有旧版输出文件。
-// 每当文件改名时，确保不残留使用旧名字的文件。
-const del   = require('del');
-const clean = require('gulp-clean');
-
-// 用于在管道流程中过滤掉一些Globs。
-const filter        = require('gulp-filter');
-
-const concatInto    = require('gulp-concat');
-const inject        = require('gulp-inject');
-
-// 方便的文件编辑插件
-const changeContent = require('gulp-change');
-
-const eslint        = require('gulp-eslint');
-const minifyJS      = require('gulp-uglify');
-const minifyCSS     = require('gulp-cssmin');
-const minifyHTML    = require('gulp-htmlmin');
-const sourcemaps    = require('gulp-sourcemaps');
-
-
-const chalk        = require('chalk');
-const logFileSizes = require('gulp-size');
 const logLine      = '\n'+'-'.repeat(79);
-
-
-
-
-
-
 const rawConsoleLog = global.console.log;
 const projectCaptionLog = chalk.blue(projectCaption);
 global.console.log = rawConsoleLog.bind(global.console, projectCaptionLog);
@@ -165,7 +165,7 @@ function genOptionsForHTMLMin(shouldMinifyHTML) {
 // 因为这些动作的返回值，是一个个Stream对象，返回这些Stream对象才能保证各个相互依赖的任务
 // 依照预定顺序执行；否则，虽然任务可能会被执行，却不能保证依照预定顺序，从而可能造成晚期错误的结果。
 
-gulp.task('before-everything', () => {
+gulp.task('最初的准备工作', () => {
 	wlcLog('预先删除临时文件……');
 	return del([pathNewBuildTempRoot]);
 });
@@ -175,73 +175,73 @@ gulp.task('before-everything', () => {
 (function devAllCSSAndIconFontsTasks() {
 	let globsForBaseCSS = WLCClientProjectSettings.globs.filesViaConcatenation.CSS.base; 
 		globsForBaseCSS.forEach((glob, i, globs) => {
-			globs[i] = pathSrcRoot+'/'+folderNameCSS+'/'+glob;
+			globs[i] = path.join(pathSrcRoot, folderNameCSS, glob);
 		});
 
 	let globsForThemeDefaultCSS = WLCClientProjectSettings.globs.filesViaConcatenation.CSS['theme-_default']; 
 		globsForThemeDefaultCSS.forEach((glob, i, globs) => {
-			globs[i] = pathSrcRoot+'/'+folderNameCSS+'/'+glob;
+			globs[i] = path.join(pathSrcRoot, folderNameCSS, glob);
 		});
 
-	const pathForSavingBaseCSS = pathNewDevBuildCacheRoot+'/assets/styles/base/';
+	const pathForSavingBaseCSS = path.join(pathNewDevBuildCacheRoot, folderNameCSS, 'base');
 	const cssBuildingOptions = runtime.buildingOptions.forCurrentMode;
 	const cssminOptions = genOptionsForCSSMin();
 
 
-	gulp.task('CSS-基本定义', ['before-everything'], () => {
+	gulp.task('CSS-基本定义', ['最初的准备工作'], () => {
 		const baseCSSFileName = 'base.min.css';
 		if (cssBuildingOptions.shouldGenerateSoureMaps) {
 			return gulp.src(globsForBaseCSS)
 				.pipe(sourcemaps.init())
 					.pipe(concatInto(baseCSSFileName))
-					// .pipe(minifyCSS(cssminOptions))
+					.pipe(minifyCSS(cssminOptions))
 				.pipe(sourcemaps.write('.'))
 				.pipe(gulp.dest(pathForSavingBaseCSS))
 			;
 		} else {
 			return gulp.src(globsForBaseCSS)
 				.pipe(concatInto(baseCSSFileName))
-				// .pipe(minifyCSS(cssminOptions))
+				.pipe(minifyCSS(cssminOptions))
 				.pipe(gulp.dest(pathForSavingBaseCSS))
 			;
 		}
 	});
 
 
-	gulp.task('CSS-色彩主题-默认主题', ['before-everything'], () => {
+	gulp.task('CSS-色彩主题-默认主题', ['最初的准备工作'], () => {
 		const baseThemeCSSFileName = 'theme-_default.min.css';
 		if (cssBuildingOptions.shouldGenerateSoureMaps) {
 			return gulp.src(globsForThemeDefaultCSS)
 				.pipe(sourcemaps.init())
 					.pipe(concatInto(baseThemeCSSFileName))
-					// .pipe(minifyCSS(cssminOptions))
+					.pipe(minifyCSS(cssminOptions))
 				.pipe(sourcemaps.write('.'))
 				.pipe(gulp.dest(pathForSavingBaseCSS))
 			;
 		} else {
 			return gulp.src(globsForThemeDefaultCSS)
 				.pipe(concatInto(baseThemeCSSFileName))
-				// .pipe(minifyCSS(cssminOptions))
+				.pipe(minifyCSS(cssminOptions))
 				.pipe(gulp.dest(pathForSavingBaseCSS))
 			;
 		}
 	});
 
 
-	gulp.task('styles-iconfonts', ['before-everything'], () => {
+	gulp.task('CSS-iconfonts', ['最初的准备工作'], () => {
 		return gulp.src([
-			pathSrcRoot+'/'+folderNameCSS+'/base-of-this-project/0-iconfonts/*',
-			'!'+pathSrcRoot+'/'+folderNameCSS+'/base-of-this-project/0-iconfonts/*.css' //前面加一个惊叹号，代表忽略这个glob。
+			    path.join(pathSrcRoot, folderNameCSS, 'base-of-this-project/0-iconfonts/*'),
+			'!'+path.join(pathSrcRoot, folderNameCSS, 'base-of-this-project/0-iconfonts/*.css') //前面加一个惊叹号，代表忽略这个glob。
 		])
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/'+folderNameCSS+'/base/'))
+			.pipe(gulp.dest(path.join(pathNewDevBuildCacheRoot, folderNameCSS, 'base')))
 		;
 	});
 
 
-	gulp.task('styles-specific', ['before-everything'], () => {
-		const pathCSSTargetFolder = pathNewDevBuildCacheRoot+'/'+folderNameCSS+'/pages';
+	gulp.task('styles-specific', ['最初的准备工作'], () => {
+		const pathCSSTargetFolder = path.join(pathNewDevBuildCacheRoot, folderNameCSS, 'pages');
 		let globsForCSSForSpecificPages = [
-			pathSrcRoot+'/'+folderNameCSS+'/pages/**/*.css'
+			path.join(pathSrcRoot, folderNameCSS, 'pages/**/*.css')
 		];
 
 
@@ -273,7 +273,7 @@ gulp.task('before-everything', () => {
 	gulp.task('styles', [
 		'CSS-基本定义',
 		'CSS-色彩主题-默认主题',
-		'styles-iconfonts',
+		'CSS-iconfonts',
 		'styles-specific'
 	]);
 })();
@@ -281,8 +281,8 @@ gulp.task('before-everything', () => {
 
 
 (function devAllJSTasks() {
-	gulp.task('es-lint', ['before-everything'], () => {
-		return gulp.src([pathSrcRoot+'/'+folderNameJS+'/**/*.js'])
+	gulp.task('es-lint', ['最初的准备工作'], () => {
+		return gulp.src([path.join(pathSrcRoot,folderNameJS,'**/*.js')])
 			.pipe(eslint())
 			.pipe(eslint.format())
 		;
@@ -292,7 +292,7 @@ gulp.task('before-everything', () => {
 	// 虽然不先做 lint 代码审查，也可以同步压缩和输出脚本文件，但那样做意义不大。
 	// 更何况我们不希望未通过审查的新版代码覆盖旧版的代码。所以我故意这样安排。
 	gulp.task('scripts-minify', ['es-lint'], () => {
-		return gulp.src([pathSrcRoot+'/'+folderNameJS+'/**/*.js'])
+		return gulp.src([path.join(pathSrcRoot,folderNameJS,'**/*.js')])
 			// .pipe(sourcemaps.init())
 				.pipe(rename((fullPathName) => {
 					fullPathName.basename += '.min';
@@ -300,7 +300,7 @@ gulp.task('before-everything', () => {
 				}))
 			// .pipe(sourcemaps.write('.'))
 
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/'+folderNameJS))
+			.pipe(gulp.dest(path.join(pathNewDevBuildCacheRoot,folderNameJS)))
 		;
 	});
 
@@ -310,15 +310,19 @@ gulp.task('before-everything', () => {
 
 
 (function devAllHTMLTasks() {
-	gulp.task('将所有HTML片断文件复制到缓存文件夹',  ['before-everything'], () => {
-		return gulp.src([pathSrcRoot+'/'+folderNameHTMLSnippets+'/**/*'])
-			.pipe(gulp.dest(pathNewBuildTempRoot+'/'+folderNameHTMLSnippets))
+	gulp.task('将所有HTML片断文件复制到【开发预览缓存文件夹】', [
+		'最初的准备工作'
+	], () => {
+		return gulp.src([path.join(pathSrcRoot, folderNameHTMLSnippets,'**/*')])
+			.pipe(gulp.dest(path.join(pathNewBuildTempRoot, folderNameHTMLSnippets)))
 		;
 	});
 
-	gulp.task('预处理缓存文件夹中的HTML片断',  ['将所有HTML片断文件复制到缓存文件夹'], () => {
+	gulp.task('预处理【开发预览缓存文件夹】中的HTML片断', [
+		'将所有HTML片断文件复制到【开发预览缓存文件夹】'
+	], () => {
 		return gulp.src([
-			pathNewBuildTempRoot+'/'+folderNameHTMLSnippets+'/module-app-footer.html'
+			path.join(pathNewBuildTempRoot,folderNameHTMLSnippets,'module-app-footer.html')
 		])
 			.pipe(
 				changeContent((fileContentString) => {
@@ -326,17 +330,17 @@ gulp.task('before-everything', () => {
 					return fileContentString.replace(/(\&copy\;\s*)\d+/g, '$1'+thisYear);
 				})
 			)
-			.pipe(gulp.dest(pathNewBuildTempRoot+'/'+folderNameHTMLSnippets))
+			.pipe(gulp.dest(path.join(pathNewBuildTempRoot,folderNameHTMLSnippets)))
 		;
 	});
 
-	gulp.task('将HTML片断按需注入各个HTML页面中', ['预处理缓存文件夹中的HTML片断'], () => {
-		const globsSourceHTMLSnippets = pathSrcRoot+'/'+folderNameHTMLSnippets;
-		const globsAllSourceHTMLFilesInAllFolders = pathSrcRoot+'/**/*.html'; // 其中包含了index.html
+	gulp.task('将HTML片断按需注入各个HTML页面中', ['预处理【开发预览缓存文件夹】中的HTML片断'], () => {
+		const pathSourceHTMLSnippets = path.join(pathSrcRoot,folderNameHTMLSnippets);
+		const globsAllSourceHTMLFilesInAllFolders = path.join(pathSrcRoot, '**/*.html'); // 其中包含了index.html
 
 		const globsSourceFolderAllHTMLPages = [
 			globsAllSourceHTMLFilesInAllFolders,
-			'!'+globsSourceHTMLSnippets // 我们要排除的是源文件夹的片段，而不是临时文件夹的片段
+			'!'+pathSourceHTMLSnippets // 我们要排除的是源文件夹的片段，而不是临时文件夹的片段
 		];
 
 		const injectionSets = WLCClientProjectSettings.injections;
@@ -345,12 +349,12 @@ gulp.task('before-everything', () => {
 		for (let iInjection = 0; iInjection < injectionSets.length; iInjection++) {
 			let injectionSet = injectionSets[iInjection];
 
-			let pathTempSnippets = pathNewBuildTempRoot + injectionSet.snippetsPathRoot;
+			let pathTempSnippets = path.join(pathNewBuildTempRoot, injectionSet.snippetsPathRoot);
 			let couples = injectionSet.couples;
 
 			for (let iCouple = 0; iCouple < couples.length; iCouple++) {
 				let couple = couples[iCouple];
-				let tempSnippetFile = pathTempSnippets + couple.withFile;
+				let tempSnippetFile = path.join(pathTempSnippets, couple.withFile);
 				let injectionStartTag = '<!-- inject:'+couple.replaceTag+' -->';
 
 				// wlcLog(tempSnippetFile);
@@ -391,12 +395,12 @@ gulp.task('before-everything', () => {
 	});
 
 	gulp.task('删除缓存文件夹种的HTML片断文件',  ['将HTML片断按需注入各个HTML页面中'], () => {
-		return del([pathNewDevBuildCacheRoot+'/'+folderNameHTMLSnippets]);
+		return del([path.join(pathNewDevBuildCacheRoot, folderNameHTMLSnippets)]);
 	});
 
 	gulp.task('html', ['删除缓存文件夹种的HTML片断文件'], () => {
 		let htmlminOptions = genOptionsForHTMLMin(runtime.buildingOptions.forCurrentMode.shouldMinifyHTML);
-		return gulp.src([pathNewDevBuildCacheRoot+'/**/*.html'])
+		return gulp.src([path.join(pathNewDevBuildCacheRoot, '**/*.html')])
 			.pipe(minifyHTML(htmlminOptions))
 			.pipe(gulp.dest(pathNewDevBuildCacheRoot))
 		;
@@ -406,34 +410,26 @@ gulp.task('before-everything', () => {
 
 
 (function devAllAssetsTasks() {
-	gulp.task('处理所有来自第三方厂商的文件', ['before-everything'], () => {
-		return gulp.src(pathSrcRoot+'/assets-vendors/**/*')
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/assets-vendors/'))
+	gulp.task('处理所有来自第三方厂商的文件', ['最初的准备工作'], () => {
+		return gulp.src(path.join(pathSrcRoot, 'assets-vendors/**/*'))
+			.pipe(gulp.dest(path.join(pathNewDevBuildCacheRoot, 'assets-vendors')))
 		;
 	});
 
-
-	gulp.task('fonts', ['before-everything'], () => {
+	gulp.task('处理所有非CSS、非JS的自主资源文件', ['最初的准备工作'], () => {
 		return gulp.src([
-			pathSrcRoot+'/fonts/**/*'
+			    path.join(pathSrcRoot, folderNameAssets, '**/*'),
+			'!'+path.join(pathSrcRoot, folderNameCSS, '**/*'),
+			'!'+path.join(pathSrcRoot, folderNameCSS),
+			'!'+path.join(pathSrcRoot, folderNameJS, '**/*'),
+			'!'+path.join(pathSrcRoot, folderNameJS),
 		])
-			.pipe(logFileSizes({title: '>>>>>>>>  Reporting Files:  Fonts'})) // 为了装逼，在命令行窗口中打印一下文件尺寸
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/fonts'))
+			.pipe(gulp.dest(path.join(pathNewDevBuildCacheRoot, folderNameAssets)))
 		;
 	});
 
-	gulp.task('images', ['before-everything'], () => {
-		return gulp.src([
-			pathSrcRoot+'/images/**/*'
-		])
-			.pipe(logFileSizes({title: '>>>>>>>>  Reporting Files: Images'})) // 为了装逼，在命令行窗口中打印一下文件尺寸
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/images'))
-		;
-	});
-
-	gulp.task('assets', [
-		'fonts',
-		'images',
+	gulp.task('处理所有自主资源文件（图片、字体等）', [
+		'处理所有非CSS、非JS的自主资源文件',
 		'styles',
 		'scripts'
 	]);
@@ -447,23 +443,21 @@ gulp.task('before-everything', () => {
 
 gulp.task('prepare-all-new-files-in-cache', [
 	'处理所有来自第三方厂商的文件',
-	'assets',
+	'处理所有自主资源文件（图片、字体等）',
 	'html'
 ]);
 
-gulp.task('delete-old-dist', ['prepare-all-new-files-in-cache'], () => {
-	wlcLog('删除旧有的【开发预览】文件夹……');
+gulp.task('删除旧有【开发预览】文件夹', ['prepare-all-new-files-in-cache'], () => {
 	return del([pathDevBuildRoot]);
 });
 
-gulp.task('将【开发预览缓存】发布为新的【开发预览】', ['delete-old-dist'], () => {
+gulp.task('将【开发预览缓存】发布为新的【开发预览】', ['删除旧有【开发预览】文件夹'], () => {
 	wlcLog('将【'+folderNameNewDevBuildCacheRoot+'】更名为【'+folderNameDevBuildRoot+'】……');
-	fileSystem.renameSync(pathNewDevBuildCacheRoot, pathDevBuildRoot);
+	return fileSystem.renameSync(pathNewDevBuildCacheRoot, pathDevBuildRoot);
 });
 
 
 gulp.task('删除临时文件夹和临时文件', ['将【开发预览缓存】发布为新的【开发预览】'], () => {
-	wlcLog('最后，删除临时文件……');
 	return del([pathNewBuildTempRoot]);
 });
 
@@ -472,19 +466,19 @@ gulp.task('删除临时文件夹和临时文件', ['将【开发预览缓存】�
 
 
 
-gulp.task('build-entire-app', ['删除临时文件夹和临时文件']);
+gulp.task('构建整个App', ['删除临时文件夹和临时文件']);
 
 
 gulp.task('监视【开发源码】文件夹', ['删除临时文件夹和临时文件'], () => {
 	return gulp.watch(
 		[ // 监视这个文件夹
 			pathWLCConfigurationFile,
-			pathSrcRoot+'/**/*'
+			path.join(pathSrcRoot, '**/*')
 		],
-	 	['build-entire-app']   // 一旦有文件改动，执行这个任务
+	 	['构建整个App']   // 一旦有文件改动，执行这个任务
 	)
 		.on('change', (/*event, done*/) => {
-			wlcLog(logLine+'\n\t'+new Date().toLocaleString()+' 【'+pathSrcRoot+'】变动了!'+logLine);
+			wlcLog(logLine+'\n  '+new Date().toLocaleString()+' 【'+pathSrcRoot+'】变动了!'+logLine);
 		})
 	;
 });
@@ -494,7 +488,7 @@ gulp.task('监视【开发源码】文件夹', ['删除临时文件夹和临时�
 	// 下面这个任务就是 “default” 任务。
 	// 当我们从命令行窗口输入gulp并回车时，gulp会自动从 default 任务开始执行。
 	gulp.task('default', [
-		'build-entire-app',
+		'构建整个App',
 		'监视【开发源码】文件夹'
 	], (onThisTaskDone) => {
 		onThisTaskDone();

@@ -2,11 +2,11 @@
 	<header>
 		<div class="row" id="app-header-info-and-links">
 			<div class="width-wrap"
-				><div id="app-header-contacts"
+				><div class="left-part"
 					><ul class="toolbar tel"
 						><li
 							><button class="simple-look"
-								><i class="iconfont icon-classic-phone-circled"></i
+								><i class="iconfont icon-classic-phone-stroke"></i
 								><span class="label" 
 									><span>服务热线： </span
 									><em><span>400-928-2299</span></em
@@ -18,13 +18,19 @@
 						><li class="qq"
 							><a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzkzODAwNDQzN18zNTI2MjVfNDAwOTI4MjI5OV8yXw"
 								target="_blank" 
-								><i class="iconfont icon-tencent-qq"></i><span class="label">QQ</span
+								><i class="iconfont icon-tencent-qq-stroke"></i><span class="label">QQ</span
+							></a
+						></li
+						><li class="weibo"
+							><a href="http://weibo.com/taijs2015"
+								target="_blank"
+								><i class="iconfont icon-sina-weibo"></i><span class="label">微博</span
 							></a
 						></li
 						><li class="weixin"
                             ><div class="floating-layer-set layer-auto-hide layer-hover-to-show"
                                 ><button class="simple-look"
-                                	><i class="iconfont icon-tencent-weixin"></i
+                                	><i class="iconfont icon-tencent-weixin-stroke"></i
                                 	><span class="label" >微信</span 
                                 ></button
                                 ><div class="locator">
@@ -49,18 +55,15 @@
                                 </div
                             ></div
 						></li
-						><li class="weibo"
-							><a href="http://weibo.com/taijs2015"
-								target="_blank"
-								><i class="iconfont icon-sina-weibo"></i><span class="label">微博</span
-							></a
-						></li
 					></ul
+				></div
+
+				><div class="right-part"
 					><ul class="toolbar apps"
 						><li class="mobile-app"
                             ><div class="floating-layer-set layer-auto-hide layer-hover-to-show"
                                 ><button class="simple-look"
-                                	><i class="iconfont icon-smart-phone-iphone-4"></i
+                                	><i class="iconfont icon-mobile-phone"></i
                                 	><span class="label" >手机客户端</span 
                                 ></button
                                 ><div class="locator">
@@ -82,10 +85,7 @@
                             ></div
 						></li
 					></ul
-				></div
-
-				><div id="app-header-user-account-commands">
-					<ul class="links toolbar"
+					><ul class="toolbar links"
 						><li><a href="#"
 							>网站公告</a></li
 						><li><a href="../html/xfzq-help-desk-index.html"
@@ -98,15 +98,17 @@
 			<div class="width-wrap">
 				<div id="taijs-logo">
 					<a href="/">
-						<img src="../assets/images/company-brand/taijs-logo-hori-bg-trans.png" width="140" height="46">
+						<img src="../assets/images/company-brand/taijs-logos.svg" width="140" height="46">
+						<!--<svg>
+							<use xlink:href="#taijs-logo-shape-horizontal" x="0" y="0" style="fill: url(#sliding-rainbow)"></use>
+						</svg>-->
 					</a>
 				</div>
 
 				<div id="app-chief-nav">
 					<nav>
 						<ul role="menubar" class="menu level-1 layout-hori"
-							><li role="menuitem"
-								class="menu-item"
+							><li role="menuitem" class="menu-item"
 								            aria-labelledby="menu-cn-1-index"
 								><a href="../index.html"
 									><span class="label" id="menu-cn-1-index">首页</span
@@ -115,51 +117,18 @@
 
 							><li role="menuitem" aria-haspopup="true"
 								class="menu-item has-sub-menu"
-								            aria-labelledby="menu-cn-1-lczq" 
-								><div class="deco rounded-corners has-borders cast-shadow" 
-									><div class="ie-shadow"><div class="ie-shadow-matte"></div></div
-									><div class="ie-bg"><i class="corner-1"></i><i class="corner-2"></i><i class="corner-3"></i><i class="corner-4"></i></div
-									><div class="ie-borders"><i class="corner-1"></i><i class="corner-2"></i><i class="corner-3"></i><i class="corner-4"></i></div
-								></div
+								        aria-labelledby="menu-cn-1-lczq" 
 								><span class="label" id="menu-cn-1-lczq" >理财专区</span
 
 								><div class="menu-wrap level-2"
 									><ul class="menu level-2 layout-vert rounded-corners has-borders sharp-corner-tl cast-shadow"
-										><div class="ie-shadow"><div class="ie-shadow-matte"></div></div
-										><div class="ie-bg"><i class="corner-1"></i><i class="corner-2"></i><i class="corner-3"></i><i class="corner-4"></i></div
-										><div class="ie-borders"><i class="corner-1"></i><i class="corner-2"></i><i class="corner-3"></i><i class="corner-4"></i></div
-										><div class="border-patch"></div
-
-										><!-- <li role="menuitem"
-											class="menu-item"
-											            aria-labelledby="menu-cn-1-lczq-2-gmjj"
-											><a href="#"
-												><span class="label" id="menu-cn-1-lczq-2-gmjj" >公募基金</span
-											></a
-										></li
-										><li role="menuitem"
-											class="menu-item"
-											            aria-labelledby="menu-cn-1-lczq-2-djsm"
-											><a href="#"
-												><span class="label" id="menu-cn-1-lczq-2-djsm" >顶级私募</span
-											></a
-										></li
-										> --><li role="menuitem"
-											class="menu-item"
+										><li role="menuitem" class="menu-item"
 											            aria-labelledby="menu-cn-1-lczq-2-gslc"
 											><a href="http://wwwuat.taijs.com/fixed-incomes.html"
 												><span class="label" id="menu-cn-1-lczq-2-gslc" >固收理财</span
 											></a
 										></li
-										><!-- <li role="menuitem"
-											class="menu-item"
-											            aria-labelledby="menu-cn-1-lczq-2-tjb"
-											><a href="#"
-												><span class="label" id="menu-cn-1-lczq-2-tjb"  >泰金宝</span  
-											></a
-										></li
-										> --><li role="menuitem"
-											class="menu-item"
+										><li role="menuitem" class="menu-item"
 											            aria-labelledby="menu-cn-1-lczq-2-xszx"
 											><a href="http://wwwuat.taijs.com/novice-specials/detail.html"
 												><span class="label" id="menu-cn-1-lczq-2-xszx" >新手专享</span
@@ -172,52 +141,37 @@
 							><li role="menuitem" aria-haspopup="true"
 								class="menu-item has-sub-menu"
 								            aria-labelledby="menu-cn-1-xfzq" 
-								><div class="deco rounded-corners has-borders cast-shadow" 
-									><div class="ie-shadow"><div class="ie-shadow-matte"></div></div
-									><div class="ie-bg"><i class="corner-1"></i><i class="corner-2"></i><i class="corner-3"></i><i class="corner-4"></i></div
-									><div class="ie-borders"><i class="corner-1"></i><i class="corner-2"></i><i class="corner-3"></i><i class="corner-4"></i></div
-								></div
 								><a href="#"
 									><span class="label" id="menu-cn-1-xfzq" >消费专区</span
 								></a
 
 								><div class="menu-wrap level-2"
 									><ul class="menu level-2 layout-vert rounded-corners has-borders sharp-corner-tl cast-shadow"
-										><div class="ie-shadow"><div class="ie-shadow-matte"></div></div
-										><div class="ie-bg"><i class="corner-1"></i><i class="corner-2"></i><i class="corner-3"></i><i class="corner-4"></i></div
-										><div class="ie-borders"><i class="corner-1"></i><i class="corner-2"></i><i class="corner-3"></i><i class="corner-4"></i></div
-										><div class="border-patch"></div
-
-										><li role="menuitem"
-											class="menu-item"
+										><li role="menuitem" class="menu-item"
 											            aria-labelledby="menu-cn-1-xfzq-2-tyx"
 											><a href="#"
 												><span class="label" id="menu-cn-1-xfzq-2-tyx"  >泰有信</span
 											></a
 										></li
-										><li role="menuitem"
-											class="menu-item"
+										><li role="menuitem" class="menu-item"
 											            aria-labelledby="menu-cn-1-xfzq-2-bills"
 											><a href="../html/xfzq-bills-recent.html"
 												><span class="label" id="menu-cn-1-xfzq-2-bills">账单</span
 											></a
 										></li
-										><li role="menuitem"
-											class="menu-item"
+										><li role="menuitem" class="menu-item"
 											            aria-labelledby="menu-cn-1-xfzq-2-order"
 											><a href="#"
 												><span class="label" id="menu-cn-1-xfzq-2-order">订单</span
 											></a
 										></li
-										><li role="menuitem"
-											class="menu-item"
+										><li role="menuitem" class="menu-item"
 											            aria-labelledby="menu-cn-1-xfzq-2-jsfq"
 											><a href="#"
 												><span class="label" id="menu-cn-1-xfzq-2-jsfq" >结束分期</span  
 											></a
 										></li
-										><li role="menuitem"
-											class="menu-item"
+										><li role="menuitem" class="menu-item"
 											            aria-labelledby="menu-cn-1-xfzq-2-hkjl"
 											><a href="#"
 												><span class="label" id="menu-cn-1-xfzq-2-hkjl" >还款记录</span
@@ -229,44 +183,30 @@
 
 							><li role="menuitem" aria-haspopup="true"
 								class="menu-item has-sub-menu"
-								            aria-labelledby="menu-cn-1-aqbz" 
-								><div class="deco rounded-corners has-borders cast-shadow" 
-									><div class="ie-shadow"><div class="ie-shadow-matte"></div></div
-									><div class="ie-bg"><i class="corner-1"></i><i class="corner-2"></i><i class="corner-3"></i><i class="corner-4"></i></div
-									><div class="ie-borders"><i class="corner-1"></i><i class="corner-2"></i><i class="corner-3"></i><i class="corner-4"></i></div
-								></div
+								        aria-labelledby="menu-cn-1-aqbz" 
 								><span class="label" id="menu-cn-1-aqbz" >安全保障</span
 
 								><div class="menu-wrap level-2"
 									><ul class="menu level-2 layout-vert rounded-corners has-borders sharp-corner-tl cast-shadow"
-										><div class="ie-shadow"><div class="ie-shadow-matte"></div></div
-										><div class="ie-bg"><i class="corner-1"></i><i class="corner-2"></i><i class="corner-3"></i><i class="corner-4"></i></div
-										><div class="ie-borders"><i class="corner-1"></i><i class="corner-2"></i><i class="corner-3"></i><i class="corner-4"></i></div
-										><div class="border-patch"></div
-
-										><li role="menuitem"
-											class="menu-item"
+										><li role="menuitem" class="menu-item"
 											            aria-labelledby="menu-cn-1-xfzq-2-fkbz"
 											><a href="http://wwwuat.taijs.com/secureProtect.html#sec_01"
 												><span class="label" id="menu-cn-1-xfzq-2-fkbz" >风控保障</span
 											></a
 										></li
-										><li role="menuitem"
-											class="menu-item"
+										><li role="menuitem" class="menu-item"
 											            aria-labelledby="menu-cn-1-xfzq-2-hfhg"
 											><a href="http://wwwuat.taijs.com/secureProtect.html#sec_02"
 												><span class="label" id="menu-cn-1-xfzq-2-hfhg" >合法合规</span
 											></a
 										></li
-										><li role="menuitem"
-											class="menu-item"
+										><li role="menuitem" class="menu-item"
 											            aria-labelledby="menu-cn-1-xfzq-2-jsaq"
 											><a href="http://wwwuat.taijs.com/secureProtect.html#sec_03"
 												><span class="label" id="menu-cn-1-xfzq-2-jsaq" >技术安全</span
 											></a
 										></li
-										><li role="menuitem"
-											class="menu-item"
+										><li role="menuitem" class="menu-item"
 											            aria-labelledby="menu-cn-1-xfzq-2-zhzj"
 											><a href="http://wwwuat.taijs.com/secureProtect.html#sec_04"
 												><span class="label" id="menu-cn-1-xfzq-2-zhzj" >账户资金</span  
@@ -276,16 +216,14 @@
 								></div
 							></li
 
-							><li role="menuitem"
-								class="menu-item"
+							><li role="menuitem" class="menu-item"
 								            aria-labelledby="menu-cn-1-news" 
 								><a href="http://wwwuat.taijs.com/news/newsList.html"
 									><span class="label" id="menu-cn-1-news" >资讯</span
 								></a
 							></li
 
-							><li role="menuitem"
-								class="menu-item"
+							><li role="menuitem" class="menu-item"
 								            aria-labelledby="menu-cn-1-about"
 								><a href="http://wwwuat.taijs.com/aboutUS.html"
 									><span class="label" id="menu-cn-1-about">关于我们</span
