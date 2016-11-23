@@ -65,7 +65,7 @@ module.exports = {
 			shouldMinifyHTML: false,
 			shouldMinifyCSS: false,
 			shouldMinifyJS: false,
-			shouldGenerateSoureMaps: false
+			shouldGenerateSoureMaps: true
 		},
 		release: {
 			shouldMinifyHTML: true,
