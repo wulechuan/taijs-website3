@@ -106,7 +106,8 @@
     }
 
     #app-header-chief-bar > .width-wrap {
-        height: 72px;
+        height: 4rem;
+        line-height: 4rem;
     }
 
     #taijs-logo {
@@ -121,12 +122,4 @@
         padding: 0 10px;
         margin-right: -10px;
         z-index: 5;
-    }
-
-    #search-box, #my-assets {
-        text-align: left;
-    }
-
-    #search-box {
-        width: 140px;
     }

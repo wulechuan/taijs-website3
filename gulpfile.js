@@ -228,7 +228,7 @@ gulp.task('最初的准备工作', () => {
 	});
 
 
-	gulp.task('styles-iconfonts', ['最初的准备工作'], () => {
+	gulp.task('CSS-iconfonts', ['最初的准备工作'], () => {
 		return gulp.src([
 			    path.join(pathSrcRoot, folderNameCSS, 'base-of-this-project/0-iconfonts/*'),
 			'!'+path.join(pathSrcRoot, folderNameCSS, 'base-of-this-project/0-iconfonts/*.css') //前面加一个惊叹号，代表忽略这个glob。
@@ -273,7 +273,7 @@ gulp.task('最初的准备工作', () => {
 	gulp.task('styles', [
 		'CSS-基本定义',
 		'CSS-色彩主题-默认主题',
-		'styles-iconfonts',
+		'CSS-iconfonts',
 		'styles-specific'
 	]);
 })();
@@ -282,7 +282,7 @@ gulp.task('最初的准备工作', () => {
 
 (function devAllJSTasks() {
 	gulp.task('es-lint', ['最初的准备工作'], () => {
-		return gulp.src([pathSrcRoot+'/'+folderNameJS+'/**/*.js'])
+		return gulp.src([path.join(pathSrcRoot,folderNameJS,'**/*.js')])
 			.pipe(eslint())
 			.pipe(eslint.format())
 		;
@@ -292,7 +292,7 @@ gulp.task('最初的准备工作', () => {
 	// 虽然不先做 lint 代码审查，也可以同步压缩和输出脚本文件，但那样做意义不大。
 	// 更何况我们不希望未通过审查的新版代码覆盖旧版的代码。所以我故意这样安排。
 	gulp.task('scripts-minify', ['es-lint'], () => {
-		return gulp.src([pathSrcRoot+'/'+folderNameJS+'/**/*.js'])
+		return gulp.src([path.join(pathSrcRoot,folderNameJS,'**/*.js')])
 			// .pipe(sourcemaps.init())
 				.pipe(rename((fullPathName) => {
 					fullPathName.basename += '.min';
@@ -300,7 +300,7 @@ gulp.task('最初的准备工作', () => {
 				}))
 			// .pipe(sourcemaps.write('.'))
 
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/'+folderNameJS))
+			.pipe(gulp.dest(path.join(pathNewDevBuildCacheRoot,folderNameJS)))
 		;
 	});
 
@@ -313,8 +313,8 @@ gulp.task('最初的准备工作', () => {
 	gulp.task('将所有HTML片断文件复制到【开发预览缓存文件夹】', [
 		'最初的准备工作'
 	], () => {
-		return gulp.src([pathSrcRoot+'/'+folderNameHTMLSnippets+'/**/*'])
-			.pipe(gulp.dest(pathNewBuildTempRoot+'/'+folderNameHTMLSnippets))
+		return gulp.src([path.join(pathSrcRoot, folderNameHTMLSnippets,'**/*')])
+			.pipe(gulp.dest(path.join(pathNewBuildTempRoot, folderNameHTMLSnippets)))
 		;
 	});
 
@@ -322,7 +322,7 @@ gulp.task('最初的准备工作', () => {
 		'将所有HTML片断文件复制到【开发预览缓存文件夹】'
 	], () => {
 		return gulp.src([
-			pathNewBuildTempRoot+'/'+folderNameHTMLSnippets+'/module-app-footer.html'
+			path.join(pathNewBuildTempRoot,folderNameHTMLSnippets,'module-app-footer.html')
 		])
 			.pipe(
 				changeContent((fileContentString) => {
@@ -330,17 +330,17 @@ gulp.task('最初的准备工作', () => {
 					return fileContentString.replace(/(\&copy\;\s*)\d+/g, '$1'+thisYear);
 				})
 			)
-			.pipe(gulp.dest(pathNewBuildTempRoot+'/'+folderNameHTMLSnippets))
+			.pipe(gulp.dest(path.join(pathNewBuildTempRoot,folderNameHTMLSnippets)))
 		;
 	});
 
 	gulp.task('将HTML片断按需注入各个HTML页面中', ['预处理【开发预览缓存文件夹】中的HTML片断'], () => {
-		const globsSourceHTMLSnippets = pathSrcRoot+'/'+folderNameHTMLSnippets;
-		const globsAllSourceHTMLFilesInAllFolders = pathSrcRoot+'/**/*.html'; // 其中包含了index.html
+		const pathSourceHTMLSnippets = path.join(pathSrcRoot,folderNameHTMLSnippets);
+		const globsAllSourceHTMLFilesInAllFolders = path.join(pathSrcRoot, '**/*.html'); // 其中包含了index.html
 
 		const globsSourceFolderAllHTMLPages = [
 			globsAllSourceHTMLFilesInAllFolders,
-			'!'+globsSourceHTMLSnippets // 我们要排除的是源文件夹的片段，而不是临时文件夹的片段
+			'!'+pathSourceHTMLSnippets // 我们要排除的是源文件夹的片段，而不是临时文件夹的片段
 		];
 
 		const injectionSets = WLCClientProjectSettings.injections;
@@ -349,12 +349,12 @@ gulp.task('最初的准备工作', () => {
 		for (let iInjection = 0; iInjection < injectionSets.length; iInjection++) {
 			let injectionSet = injectionSets[iInjection];
 
-			let pathTempSnippets = pathNewBuildTempRoot + injectionSet.snippetsPathRoot;
+			let pathTempSnippets = path.join(pathNewBuildTempRoot, injectionSet.snippetsPathRoot);
 			let couples = injectionSet.couples;
 
 			for (let iCouple = 0; iCouple < couples.length; iCouple++) {
 				let couple = couples[iCouple];
-				let tempSnippetFile = pathTempSnippets + couple.withFile;
+				let tempSnippetFile = path.join(pathTempSnippets, couple.withFile);
 				let injectionStartTag = '<!-- inject:'+couple.replaceTag+' -->';
 
 				// wlcLog(tempSnippetFile);
@@ -395,12 +395,12 @@ gulp.task('最初的准备工作', () => {
 	});
 
 	gulp.task('删除缓存文件夹种的HTML片断文件',  ['将HTML片断按需注入各个HTML页面中'], () => {
-		return del([pathNewDevBuildCacheRoot+'/'+folderNameHTMLSnippets]);
+		return del([path.join(pathNewDevBuildCacheRoot, folderNameHTMLSnippets)]);
 	});
 
 	gulp.task('html', ['删除缓存文件夹种的HTML片断文件'], () => {
 		let htmlminOptions = genOptionsForHTMLMin(runtime.buildingOptions.forCurrentMode.shouldMinifyHTML);
-		return gulp.src([pathNewDevBuildCacheRoot+'/**/*.html'])
+		return gulp.src([path.join(pathNewDevBuildCacheRoot, '**/*.html')])
 			.pipe(minifyHTML(htmlminOptions))
 			.pipe(gulp.dest(pathNewDevBuildCacheRoot))
 		;
@@ -411,20 +411,20 @@ gulp.task('最初的准备工作', () => {
 
 (function devAllAssetsTasks() {
 	gulp.task('处理所有来自第三方厂商的文件', ['最初的准备工作'], () => {
-		return gulp.src(pathSrcRoot+'/assets-vendors/**/*')
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/assets-vendors/'))
+		return gulp.src(path.join(pathSrcRoot, 'assets-vendors/**/*'))
+			.pipe(gulp.dest(path.join(pathNewDevBuildCacheRoot, 'assets-vendors')))
 		;
 	});
 
 	gulp.task('处理所有非CSS、非JS的自主资源文件', ['最初的准备工作'], () => {
 		return gulp.src([
-			pathSrcRoot+'/'+folderNameAssets+'/**/*',
-			'!'+pathSrcRoot+'/'+folderNameCSS+'/**/*',
-			'!'+pathSrcRoot+'/'+folderNameCSS,
-			'!'+pathSrcRoot+'/'+folderNameJS+'/**/*',
-			'!'+pathSrcRoot+'/'+folderNameJS,
+			    path.join(pathSrcRoot, folderNameAssets, '**/*'),
+			'!'+path.join(pathSrcRoot, folderNameCSS, '**/*'),
+			'!'+path.join(pathSrcRoot, folderNameCSS),
+			'!'+path.join(pathSrcRoot, folderNameJS, '**/*'),
+			'!'+path.join(pathSrcRoot, folderNameJS),
 		])
-			.pipe(gulp.dest(pathNewDevBuildCacheRoot+'/'+folderNameAssets))
+			.pipe(gulp.dest(path.join(pathNewDevBuildCacheRoot, folderNameAssets)))
 		;
 	});
 
@@ -453,7 +453,7 @@ gulp.task('删除旧有【开发预览】文件夹', ['prepare-all-new-files-in-
 
 gulp.task('将【开发预览缓存】发布为新的【开发预览】', ['删除旧有【开发预览】文件夹'], () => {
 	wlcLog('将【'+folderNameNewDevBuildCacheRoot+'】更名为【'+folderNameDevBuildRoot+'】……');
-	fileSystem.renameSync(pathNewDevBuildCacheRoot, pathDevBuildRoot);
+	return fileSystem.renameSync(pathNewDevBuildCacheRoot, pathDevBuildRoot);
 });
 
 
@@ -473,12 +473,12 @@ gulp.task('监视【开发源码】文件夹', ['删除临时文件夹和临时�
 	return gulp.watch(
 		[ // 监视这个文件夹
 			pathWLCConfigurationFile,
-			pathSrcRoot+'/**/*'
+			path.join(pathSrcRoot, '**/*')
 		],
 	 	['构建整个App']   // 一旦有文件改动，执行这个任务
 	)
 		.on('change', (/*event, done*/) => {
-			wlcLog(logLine+'\n\t'+new Date().toLocaleString()+' 【'+pathSrcRoot+'】变动了!'+logLine);
+			wlcLog(logLine+'\n  '+new Date().toLocaleString()+' 【'+pathSrcRoot+'】变动了!'+logLine);
 		})
 	;
 });
