@@ -68,6 +68,11 @@
         margin-right: -0.5rem;
     }
 
+    #app-header-info-and-links .qrcode > img,
+    #app-header-info-and-links .qrcode .qrcode-image {
+        width: 6.4rem;
+        height: 6.4rem;
+    }
 
 
 
