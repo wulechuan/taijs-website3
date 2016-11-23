@@ -11,9 +11,17 @@ hr {
 	overflow: hidden;
 	box-sizing: border-box;
 	}
-
+	hr.vertical {
+		display: inline-block;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: 1px;
+		height: 100%;
+		min-height: 1rem;
+		margin: auto 1rem;
+	}
 	hr::before {
-		content: '';
 		display: block;
 		width: 100%;
 		margin: 0;
@@ -23,11 +31,15 @@ hr {
 		border-style: solid;
 		border-color: inherit!important;
 	}
-
+	hr.vertical::before {
+		border-width: 0 0 0 2px;
+	}
 	hr.dashed::before {
+		content: '';
 		background-color: transparent;
 		border-style: dashed;
 	}
+
 
 dt,
 dd {
