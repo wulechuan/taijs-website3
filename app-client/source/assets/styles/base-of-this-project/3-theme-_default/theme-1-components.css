@@ -23,6 +23,12 @@
 	#app-header-chief-bar hr.vertical {
 		background-color: #c4c4c4;
 	}
+	#app-header-chief-bar .taijs-logo use.normal {
+		fill: #4285F4;
+	}
+	#app-header-chief-bar .taijs-slogan use {
+		fill: #c4c4c4;
+	}
 
 #app-footer {
 	border-color: #ddd;

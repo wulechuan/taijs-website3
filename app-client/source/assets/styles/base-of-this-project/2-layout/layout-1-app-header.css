@@ -129,3 +129,29 @@
     #taijs-brand-block .taijs-slogan {
         margin-left: 2rem;
     }
+	#app-header-chief-bar .taijs-logo use.normal，
+	#app-header-chief-bar .taijs-logo use.hover {
+		display: block;
+		position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+	}
+	#app-header-chief-bar .taijs-logo use.normal {
+		opacity: 1;
+        transition: opacity 0.5s ease-in;
+	}
+	#app-header-chief-bar .taijs-logo use.hover {
+		opacity: 0;
+        transition: opacity 0.5s ease-in;
+	}
+	#app-header-chief-bar .taijs-logo:hover use.normal {
+		opacity: 0;
+        transition: opacity 0.5s ease-in;
+	}
+	#app-header-chief-bar .taijs-logo:hover use.hover {
+		opacity: 1;
+        transition: opacity 0.5s ease-in;
+	}
