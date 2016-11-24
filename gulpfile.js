@@ -469,16 +469,35 @@ gulp.task('删除临时文件夹和临时文件', ['将【开发预览缓存】�
 gulp.task('构建整个App', ['删除临时文件夹和临时文件']);
 
 
+let watchEventTriggeredJustNow = false;
 gulp.task('监视【开发源码】文件夹', ['删除临时文件夹和临时文件'], () => {
+	if (watchEventTriggeredJustNow) {
+		wlcLog(logLine+'\n  Files are changing too frequently.'+logLine);
+		return false;
+	}
+
 	return gulp.watch(
-		[ // 监视这个文件夹
-			pathWLCConfigurationFile,
-			path.join(pathSrcRoot, '**/*')
+		[ // 监视这些文件和文件夹
+			path.join(pathSrcRoot, '**/*'),
 		],
-	 	['构建整个App']   // 一旦有文件改动，执行这个任务
+		[ // 一旦有文件改动，执行这些任务
+			'构建整个App'
+		]
 	)
-		.on('change', (/*event, done*/) => {
-			wlcLog(logLine+'\n  '+new Date().toLocaleString()+' 【'+pathSrcRoot+'】变动了!'+logLine);
+		.on('change', function (event) {
+			watchEventTriggeredJustNow = true;
+			global.setTimeout(function () {
+				watchEventTriggeredJustNow = false;
+			}, 0.5);
+
+			const changedFileFolder = event.path.slice(pathClientAppRoot.length+1);
+
+			wlcLog(
+			  logLine
+			  +'\n  '+new Date().toLocaleString()+' 【'+pathSrcRoot+'】变动了!'
+			  +'\n  '+changedFileFolder
+			  +logLine
+			);
 		})
 	;
 });

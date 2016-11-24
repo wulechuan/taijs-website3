@@ -13,7 +13,7 @@
 	#app-header-info-and-links a:hover,
 	#app-header-info-and-links .floating-layer-set:hover button.simple-look,
 	#app-header-info-and-links button.simple-look:hover {
-		background-color: rgba(255, 255, 255, 0.1);
+		background-color: rgba(255, 255, 255, 0.15);
 	}
 
 	#app-header-chief-bar {
