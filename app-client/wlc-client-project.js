@@ -98,23 +98,11 @@ module.exports = {
 				},
 				{
 					replaceTag: 'appRootWrapBegin:html',
-					withFile:   'module-app-root-wrap-begin.html'
+					withFile:   'module-app-_root-wrap-begin.html'
 				},
 				{
 					replaceTag: 'appRootWrapEnd:html',
-					withFile:   'module-app-root-wrap-end.html'
-				},
-				{
-					replaceTag: 'appBGLayer0:html',
-					withFile:   'module-app-bg-layer-0.html'
-				},
-				{
-					replaceTag: 'appFGLayerWrapBegin:html',
-					withFile:   'module-app-fg-layer-wrap-begin.html'
-				},
-				{
-					replaceTag: 'appFGLayerWrapEnd:html',
-					withFile:   'module-app-fg-layer-wrap-end.html'
+					withFile:   'module-app-_root-wrap-end.html'
 				},
 				{
 					replaceTag: 'appHeader:html',
@@ -125,12 +113,12 @@ module.exports = {
 					withFile:   'module-app-footer.html'
 				},
 				{
-					replaceTag: 'pageBodyStamp0:html',
-					withFile:   'module-page-body-stamp-0.html'
+					replaceTag: 'appBodyWrapBegin:html',
+					withFile:   'module-app-body-wrap-begin.html'
 				},
 				{
-					replaceTag: 'pageBodyStamp1:html',
-					withFile:   'module-page-body-stamp-1.html'
+					replaceTag: 'appBodyWrapEnd:html',
+					withFile:   'module-app-body-wrap-end.html'
 				},
 				{
 					replaceTag: 'globalPopupLayers:html',
@@ -143,10 +131,6 @@ module.exports = {
 				{
 					replaceTag: 'popupLayersWrapEnd:html',
 					withFile:   'module-popup-layers-wrap-end.html'
-				},
-				{
-					replaceTag: 'popupLayerVCodes:html',
-					withFile:   'module-popup-layer-vcodes.html'
 				}
 			]
 		}
