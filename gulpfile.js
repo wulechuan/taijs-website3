@@ -491,11 +491,22 @@ gulp.task('监视【开发源码】文件夹', ['删除临时文件夹和临时�
 			}, 0.5);
 
 			const changedFileFolder = event.path.slice(pathClientAppRoot.length+1);
+			let actionName = '';
+			switch (event.type) {
+				case 'added': actionName = '添加了';
+					break;
+				case 'changed': actionName = '改动了';
+					break;
+				case 'deleted': actionName = '删除了';
+					break;
+				default: actionName = '<未知动作>';
+					break;
+			}
 
 			wlcLog(
 			  logLine
 			  +'\n  '+new Date().toLocaleString()+' 【'+pathSrcRoot+'】变动了!'
-			  +'\n  '+changedFileFolder
+			  +'\n  '+actionName+'【'+changedFileFolder+'】'
 			  +logLine
 			);
 		})
@@ -512,17 +523,4 @@ gulp.task('监视【开发源码】文件夹', ['删除临时文件夹和临时�
 	], (onThisTaskDone) => {
 		onThisTaskDone();
 	});
-
-	gulp.task('del', () => {
-		try {
-			fileSystem.unlinkSync(pathDevBuildRoot);
-		} catch (e) {
-			wlcLog('using del...');
-			del([
-				pathNewDevBuildCacheRoot,
-				pathNewBuildTempRoot,
-				pathDevBuildRoot
-			]);
-		}
-	}); // For cli usage
 })();
