@@ -68,6 +68,11 @@
         margin-right: -0.5rem;
     }
 
+    #app-header-info-and-links .qrcode > img,
+    #app-header-info-and-links .qrcode .qrcode-image {
+        width: 6.4rem;
+        height: 6.4rem;
+    }
 
 
 
@@ -90,3 +95,63 @@
     #app-header-info-and-links .sns .weixin .floating-layer .col {
         padding: 0.25rem;
     }
+
+
+#app-header-chief-bar {
+    border-bottom: 1px solid;
+    }
+
+    #app-header-chief-bar > .width-wrap {
+        height: 4rem;
+    }
+
+	#taijs-brand-block {
+		display: block;
+        height: 2.3rem;
+		position: absolute;
+		left: 0;
+		top: 0;
+        bottom: 0;
+        margin: auto 0;
+	}
+
+    #taijs-brand-block .taijs-logo,
+    #taijs-brand-block .taijs-slogan {
+        display: inline-block;
+        vertical-align: middle;
+        padding: 0;
+        margin: 0;
+    }
+    #taijs-brand-block .taijs-logo,
+    #taijs-brand-block .taijs-logo img {
+        width: 6.25rem;
+    }
+    #taijs-brand-block .taijs-slogan {
+        margin-left: 2rem;
+    }
+	#app-header-chief-bar .taijs-logo use.normal，
+	#app-header-chief-bar .taijs-logo use.hover {
+		display: block;
+		position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+	}
+	#app-header-chief-bar .taijs-logo use.normal {
+		opacity: 1;
+        transition: opacity 0.5s ease-in;
+	}
+	#app-header-chief-bar .taijs-logo use.hover {
+		opacity: 0;
+        transition: opacity 0.5s ease-in;
+	}
+	#app-header-chief-bar .taijs-logo:hover use.normal {
+		opacity: 0;
+        transition: opacity 0.5s ease-in;
+	}
+	#app-header-chief-bar .taijs-logo:hover use.hover {
+		opacity: 1;
+        transition: opacity 0.5s ease-in;
+	}

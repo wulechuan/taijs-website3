@@ -1,34 +1,5 @@
-#app-header-chief-bar {
-    border-bottom: 1px solid;
-    }
-
-    #app-header-chief-bar > .width-wrap {
-        height: 4rem;
-        line-height: 4rem;
-    }
-
-    #taijs-logo {
-        display: inline-block;
-        vertical-align: top;
-        padding: 11px;
-        margin: 0 11px 0 -11px;
-    }
-
-    #app-header-chief-bar > .width-wrap > .docking {
-        height: 100%;
-        padding: 0 10px;
-        margin-right: -10px;
-        z-index: 5;
-    }
-
-
-#app-chief-nav .menu.level-2,
-#app-chief-nav .menu.level-1 > .menu-item > .deco {
-	box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.147);
-	}
-
-
 #app-chief-nav {
+    height: 2rem;
 	position: absolute;
 	right: -1rem;
 	top: 0;
@@ -67,17 +38,6 @@
 		width: 100%;
 		}
 
-		#app-chief-nav .menu-wrap.level-2 .border-patch {
-			display: block;
-			position: absolute;
-			left: 0px;
-			right: 12px;
-			top: -10px;
-			height: 13px;
-			background-color: white;
-			z-index: 10;
-		}
-
 		#app-chief-nav .menu.level-2 {
 			font-size: 14px;
 			left: 0;
@@ -89,10 +49,11 @@
 			border-width: 1px;
 			border-style: solid;
 			padding-right: 12px;
+			box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.147);
 		}
 		#app-chief-nav .menu.level-2 > .menu-item {
 			margin-right: -12px;
-			/*height: 30px;  for Microsoft EDGE bug */
+			line-height: 1.2;
 		}
 
 		#app-chief-nav .menu.level-2 > .menu-item > a > .label,

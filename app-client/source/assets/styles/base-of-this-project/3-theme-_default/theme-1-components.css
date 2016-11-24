@@ -13,14 +13,22 @@
 	#app-header-info-and-links a:hover,
 	#app-header-info-and-links .floating-layer-set:hover button.simple-look,
 	#app-header-info-and-links button.simple-look:hover {
-		background-color: rgba(255, 255, 255, 0.1);
+		background-color: rgba(255, 255, 255, 0.15);
 	}
 
 	#app-header-chief-bar {
 		background-color: rgba(255, 255, 255, 0.9);
 		border-bottom-color: rgba(160, 160, 160, 0.9);
 	}
-
+	#app-header-chief-bar hr.vertical {
+		background-color: #c4c4c4;
+	}
+	#app-header-chief-bar .taijs-logo use.normal {
+		fill: #4285F4;
+	}
+	#app-header-chief-bar .taijs-slogan use {
+		fill: #c4c4c4;
+	}
 
 #app-footer {
 	border-color: #ddd;
