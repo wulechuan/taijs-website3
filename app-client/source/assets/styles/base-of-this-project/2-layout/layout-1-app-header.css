@@ -55,6 +55,10 @@
         padding: 0;
         margin: 0;
     }
+    #app-header-info-and-links .right-part .toolbar > li {
+        margin-left: 0.5rem;
+    }
+
     #app-header-info-and-links button > .label span,
     #app-header-info-and-links button,
     #app-header-info-and-links a {

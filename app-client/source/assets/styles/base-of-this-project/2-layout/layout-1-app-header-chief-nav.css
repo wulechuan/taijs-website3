@@ -25,8 +25,13 @@
 		}
 
 		#app-chief-nav .menu.level-1 > .menu-item > a > .label,
-		#app-chief-nav .menu.level-1 > .menu-item > .label {
+		#app-chief-nav .menu.level-1 > .menu-item     > .label {
 			line-height: 1.2;
+		}
+
+		#app-chief-nav .menu.level-1 > .menu-item.has-sub-menu > a > .label::after,
+		#app-chief-nav .menu.level-1 > .menu-item.has-sub-menu     > .label::after {
+			content: none;
 		}
 
 
