@@ -411,22 +411,3 @@ article {}
 			top: 50%;
 			margin-right: 0.75rem;
 		}
-
-
-.swiper-container.page-chief-sections {
-	}
-	.swiper-container.page-chief-sections.swiper-container-vertical > .swiper-pagination-bullets .swiper-pagination-bullet {
-		background-color: transparent;
-	}
-	.swiper-container.page-chief-sections .swiper-pagination-bullet:before {
-		background-color: #757575;
-		background-color: #cca25d;
-		box-shadow: 0 0 0 0 transparent;
-	}
-	.swiper-container.page-chief-sections .swiper-pagination-bullet:hover:before {
-		background-color: #cca25d;
-	}
-	.swiper-container.page-chief-sections .swiper-pagination-bullet.swiper-pagination-bullet-active:before {
-		background: transparent;
-		box-shadow: 0 0 0 2px #cca25d;
-	}

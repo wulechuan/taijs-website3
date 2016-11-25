@@ -30,30 +30,6 @@
 		fill: #c4c4c4;
 	}
 
-#app-footer {
-	border-color: #ddd;
-	background-color: white;
-	}
-
-	#app-footer a,
-	#app-footer a:hover,
-	#app-footer a:visited {
-		color: #666;
-	}
-
-	#app-footer a:hover {
-		background-color: #f3f3f3;
-	}
-
-	#app-footer-nav h2 {
-		color: #333;
-	}
-
-	#app-footer-services-info em {
-		color: #333;
-	}
-
-
 #app-chief-nav {
 	}
 
@@ -75,4 +51,22 @@
 	#app-chief-nav .menu.level-2 > .menu-item:hover > a > .label,
 	#app-chief-nav .menu.level-2 > .menu-item:hover > .label {
 		color: white;
+	}
+
+.swiper-container.page-chief-sections {
+	}
+	.swiper-container.page-chief-sections.swiper-container-vertical > .swiper-pagination-bullets .swiper-pagination-bullet {
+		background-color: transparent;
+	}
+	.swiper-container.page-chief-sections .swiper-pagination-bullet:before {
+		background-color: #757575;
+		background-color: #cca25d;
+		box-shadow: 0 0 0 0 transparent;
+	}
+	.swiper-container.page-chief-sections .swiper-pagination-bullet:hover:before {
+		background-color: #cca25d;
+	}
+	.swiper-container.page-chief-sections .swiper-pagination-bullet.swiper-pagination-bullet-active:before {
+		background: transparent;
+		box-shadow: 0 0 0 2px #cca25d;
 	}

@@ -77,27 +77,19 @@ em {
 		text-shadow: 0 0 1.5px rgba(255, 41, 29, 0.5)\9\0; /* ie10, ie11 */
 	}
 
-.article h3.color-white,
-.article h2.color-white,
-.article h1.color-white {
-	color: white;
-	text-shadow: none;
-	}
-
-
 hr {
 	border-color: #d0d0d0;
-	}
+}
 
 
 blockquote {
 	color: #666;
-	}
+}
 
 
 a, a:link, a:visited {
 	color: #157dff;
-	}
+}
 
 
 input {
