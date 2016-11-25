@@ -52,9 +52,10 @@ module.exports = {
 					'base-of-this-project/0-iconfonts/**/*.css',
 					'base-of-this-project/1-fonts/**/*.css',
 					'base-of-this-project/2-layout/**/*.css',
+					'base-of-this-project/3-components/**/*.css',
 				],
 				'theme-_default': [
-					'base-of-this-project/3-theme-_default/**/*.css',
+					'base-of-this-project/4-theme-_default/**/*.css',
 				]
 			}
 		},
